@@ -7,6 +7,8 @@ public abstract class ABehavior : MonoBehaviour, IBehavior<ABehavior.State> {
 
 	private IEnumerator	_coBehavior;
 	private State		_state;
+
+	private GameObject 	_objectParent;
 	
 	public void Awake () {
 		this._state = State.STANDBY;
@@ -32,8 +34,10 @@ public abstract class ABehavior : MonoBehaviour, IBehavior<ABehavior.State> {
 	public virtual IEnumerator CoBehavior() {
 		Debug.Log ("Start CoBehavior");
 		yield return new WaitForSeconds (1f);
+
 		Debug.Log ("End CoBehavior");
 		yield return true;
+
 		this.Stop ();
 	}
 }

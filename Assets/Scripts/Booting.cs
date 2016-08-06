@@ -10,7 +10,7 @@ public class Booting : ABehavior {
 		this.Play ();
 	}
 	
-	public override IEnumerator CoBehavior() {
+	public override IEnumerator CoBehavior(AObject aObject) {
 		Debug.Log ("Start booting");
 
 		for (float i = 0f; i < timeBooting ; i += detaTimeLog) {
