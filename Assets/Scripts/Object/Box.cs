@@ -3,11 +3,15 @@ using System.Collections;
 
 public class Box : AObject {
 
-	public Box () {
+	private GameObject _parent;
+
+	public Box (GameObject parent) {
+		this._parent = parent;
+		this._nameParent = this._parent.name;
 		this._name = "Carton";
 		this._description = "Description carton";
 		this._weight = 10.0f;
-		this._color = gameObject.GetComponent<Material> ().color;
+		this._color = Color.white;
 		this.SetTransformObject ();
 	}
 
@@ -16,20 +20,21 @@ public class Box : AObject {
 		this._description = description;
 		this._weight = weight;
 		this._color = color;
+		this.UpdateColor ();
 		this.SetTransformObject ();
 	}
 
 	private void SetTransformObject () {
-		this._positionX = gameObject.transform.position.x;
-		this._positionY = gameObject.transform.position.y;
-		this._positionZ = gameObject.transform.position.z;
+		this._positionX = this._parent.transform.position.x;
+		this._positionY = this._parent.transform.position.y;
+		this._positionZ = this._parent.transform.position.z;
 
-		this._scaleX = gameObject.transform.localScale.x;
-		this._scaleY = gameObject.transform.localScale.y;
-		this._scaleZ = gameObject.transform.localScale.z;
+		this._scaleX = this._parent.transform.localScale.x;
+		this._scaleY = this._parent.transform.localScale.y;
+		this._scaleZ = this._parent.transform.localScale.z;
 
-		this._rotationX = gameObject.transform.rotation.x;
-		this._rotationY = gameObject.transform.rotation.y;
-		this._rotationZ = gameObject.transform.rotation.z;
+		this._rotationX = this._parent.transform.rotation.x;
+		this._rotationY = this._parent.transform.rotation.y;
+		this._rotationZ = this._parent.transform.rotation.z;
 	}
 }
