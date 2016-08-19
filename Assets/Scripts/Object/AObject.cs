@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AObject : IObject {
+public abstract class AObject : GUIObject, IObject {
 
 	// INFOS GAMEOBJECT PARENT
 	protected	string	_nameParent;
