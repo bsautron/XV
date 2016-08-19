@@ -3,13 +3,11 @@ using System.Collections;
 
 public abstract class ABehavior : MonoBehaviour, IBehavior {
 
-	protected StatesManager.EBehavior	_state;
-	protected string					_shortName;
-	protected string					_description;
+	[SerializeField] protected string					_shortName;
+	[SerializeField] protected string					_description;
+	[SerializeField] protected StatesManager.EBehavior	_state;
 
-	protected IEnumerator				_coBehavior;
-	protected GameObject 				_parent;
-
+	protected IEnumerator 				_currentCoBehavior;
 
 	public StatesManager.EBehavior state 
 		{ get { return this._state; } }
@@ -18,17 +16,23 @@ public abstract class ABehavior : MonoBehaviour, IBehavior {
 	public string description
 		{ get { return this._description; } }
 
+	public void Start() {
+		this._state = StatesManager.EBehavior.STANDBY;
+	}
+
 	public void Play() {
-		Debug.Log ("[Behavior] " + this._shortName + ": Play");
-		this._state = StatesManager.EBehavior.RUNNING;
-		while (this._coBehavior.MoveNext ()) {
-			Debug.Log (this._coBehavior.Current);
+		if (this._state == StatesManager.EBehavior.STANDBY) {
+			this._currentCoBehavior = this.CoBehavior ();
+			this._state = StatesManager.EBehavior.RUNNING;
+			StartCoroutine (this._currentCoBehavior);
 		}
 	}
 
 	public void Stop() {
-		Debug.Log ("[Behavior] " + this._shortName + ": Stop");
-		this._state = StatesManager.EBehavior.STANDBY;
+		if (this._state == StatesManager.EBehavior.RUNNING) {
+			this._state = StatesManager.EBehavior.STANDBY;
+			StopCoroutine (this._currentCoBehavior);
+		}
 	}
 
 	public abstract IEnumerator CoBehavior ();

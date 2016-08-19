@@ -3,7 +3,7 @@ using System.Collections;
 
 /*
  * IBehavior
- * To define a behavior
+ * To define a specific behavior
  * You can play or stop the behavior
  * 
  * IEnumerator CoBehavior() is a coroutine, that is THE behavior
