@@ -11,7 +11,7 @@ public class TestObject : MonoBehaviour {
 
 	public void Update() {
 		if (Input.anyKeyDown) {
-			this._behaviors[0].Play ();
+			this._behaviors[Random.Range(0, this._behaviors.Length)].Play ();
 		}
 	}
 }
