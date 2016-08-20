@@ -1,14 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AObject : GUIObject, IObject {
-
-	// INFOS GAMEOBJECT PARENT
-	protected	string	_nameParent;
-	public		string	nameParent {
-		get { return this._nameParent; }
-		set { _nameParent = nameParent; }
-	}
+public abstract class AObject : MonoBehaviour {
 
 	// POSITION X, Y, Z
 	protected	float	_positionX;
@@ -96,19 +89,5 @@ public abstract class AObject : GUIObject, IObject {
 	public		Color	color {
 		get { return this._color; }
 		set { this._color = color; }
-	}
-
-	// INTERFACE IObject
-	public virtual void UpdateColor () {
-		Component[] meshRenderers;
-		meshRenderers = GameObject.Find(this._nameParent).GetComponentsInChildren(typeof(MeshRenderer));
-		for (int i = 0; i < meshRenderers.Length; i++) {
-			Material[] materials;
-			materials = meshRenderers[i].GetComponent<MeshRenderer>().materials;
-			for (int j = 0; j < materials.Length; j++) {
-				materials[j].color = this._color;
-			}
-		}
-		Debug.Log ("Color updated (r, g, b) : (" + this._color.r + ", " + this._color.g + ", " + this._color.b + ")");
 	}
 }
