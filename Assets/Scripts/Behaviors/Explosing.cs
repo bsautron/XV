@@ -7,10 +7,8 @@ public class Explosing : ABehavior {
 	public ParticleSystem		explosion;
 	private ParticleSystem		_currentPS;
 	
-	public void Awake() {
-		this._shortName = "Explosing";
-		this._description = "Explose a dispositif";
-	}
+	public string shortName = "Explosing";
+	public string description = "Explose a dispositif";
 
 	public void Update () {
 		if (this._currentPS && !this._currentPS.IsAlive ()) {

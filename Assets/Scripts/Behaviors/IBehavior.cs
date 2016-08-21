@@ -9,8 +9,11 @@ using System.Collections;
  * IEnumerator CoBehavior() is a coroutine, that is THE behavior
  */
 
-public interface IBehavior : IState<StatesManager.EBehavior>, IDetailable {
+public interface IBehavior : IState<StatesManager.EBehavior> {
 	void Play();
 	void Stop();
+	bool IsEnableToPlay();
+	bool IsEnableToStop();
+	bool CheckIfPossible();
 	IEnumerator CoBehavior();
 }
