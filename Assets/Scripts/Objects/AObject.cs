@@ -29,8 +29,11 @@ public abstract class AObject : MonoBehaviour, IDetailable {
 	}
 
 	protected Dictionary<string, ABehavior> _dicBehavior = new Dictionary<string, ABehavior>();
+	public Dictionary<string, ABehavior> dicBehavior {
+		get { return _dicBehavior; }
+	}
 
-	public void Awake() {
+	void Awake() {
 		// behaviour
 		ABehavior[] behaviors;
 		behaviors = this.gameObject.GetComponents<ABehavior> ();
