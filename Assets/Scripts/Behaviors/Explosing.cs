@@ -6,9 +6,6 @@ public class Explosing : ABehavior {
 
 	public ParticleSystem		explosion;
 	private ParticleSystem		_currentPS;
-	
-	public string shortName = "Explosing";
-	public string description = "Explose a dispositif";
 
 	public void Update () {
 		if (this._currentPS && !this._currentPS.IsAlive ()) {
