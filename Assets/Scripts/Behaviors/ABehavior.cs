@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class ABehavior : MonoBehaviour, IBehavior {
+[RequireComponent (typeof (Detailable))]
 
-	[SerializeField] protected StatesManager.EBehavior	_state;
+public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
+	protected StatesManager.EBehavior	_state;
 
 	protected IEnumerator 				_currentCoBehavior;
 

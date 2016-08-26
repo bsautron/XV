@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Detailable : MonoBehaviour {
+[System.Serializable]
+public class Detailable {
 	public string shortName;
 	public string description;
 }
