@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (Detailable))]
+//[RequireComponent (typeof (Detailable))]
 
 public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
 	protected StatesManager.EBehavior	_state;

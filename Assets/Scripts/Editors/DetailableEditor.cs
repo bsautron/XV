@@ -2,14 +2,13 @@
 using System.Collections;
 using UnityEditor;
 //
-//[CustomEditor(typeof(Detailable))]
-//public class DetailableEditor : Editor {
-//
+//[CustomEditor(typeof(Informations))]
+//public class LevelScriptEditor : Editor 
+//{
 //	public override void OnInspectorGUI()
 //	{
-//		Detailable myTarget = target as Detailable;
+//		DrawDefaultInspector ();
+////		Informations myTarget = (Informations)target;
 //
-//		myTarget.shortName = EditorGUILayout.TextField("Short Name", myTarget.shortName);
-//		myTarget.description = EditorGUILayout.TextField("Description", myTarget.description);
 //	}
 //}
