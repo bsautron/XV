@@ -14,8 +14,7 @@ public class TestObject : MonoBehaviour, IState<StatesManager.EBehavior> {
 
 	public void Start() {
 		this._infos = this.gameObject.GetComponent<Informations>();
-//		this._infos.UpdateField<System.Int32> ("age", 23);
-//		this._infos.UpdateField<float> ("age", 23f);
+		this._infos.UpdateField("age", 23f);
 	}
 
 }

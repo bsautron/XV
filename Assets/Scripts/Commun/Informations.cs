@@ -6,7 +6,19 @@ using System;
 
 /**
  * All information inside this class will be save.
+ * 
+ * Default properties will be save by default, like displayName or position of the gameObject
+ * You can add custom information to save if you add the filed name in the inspector.
+ * Only filed in the inspector can be set.
+ * You can use the method `UpdateField` to assign you field.
+ * The value must not to be a GameObject.
+ * 
+ * get field return a copy of the dictionary
  */
+public class Fields: Dictionary<string, object> {
+	public Fields() : base() { }
+	public Fields(Dictionary<string, object> dic) : base(dic) { }
+}
 
 [ExecuteInEditMode]
 [System.Serializable]
@@ -16,7 +28,11 @@ public class Informations : MonoBehaviour {
 	private System.DateTime	_createdOn;
 	private System.DateTime	_updatedOn;
 
-	private Dictionary<string, object> _fields = new Dictionary<string, object>();
+	private Fields _fields = new Fields();
+
+	public Fields fields {
+		get { return new Fields(this._fields); }
+	}
 
 	public string[] customFields;
 
@@ -41,14 +57,15 @@ public class Informations : MonoBehaviour {
 			Debug.LogError("Field '" + fieldName + "' is not available");
 		else {
 			if (this._fields.ContainsKey(fieldName))
-				this._fields["updatedOn"] = this._updatedOn;
+				this._fields[fieldName] = value;
 			else
-				this._fields.Add("updatedOn", this._updatedOn);
+				this._fields.Add(fieldName, value);
 
 			this._updatedOn = System.DateTime.Now;
-			this._fields[fieldName] = value;
+			this._fields["updatedOn"] = this._updatedOn;
 			Debug.Log("Field '" + fieldName + "' has been changed");
 		}
 
 	}
+
 }
