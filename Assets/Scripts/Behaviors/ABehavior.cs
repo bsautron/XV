@@ -24,10 +24,6 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 		this._state = StatesManager.EBehavior.STANDBY;
 	}
 
-	public virtual bool CheckIfPossible() {
-		return this._state == StatesManager.EBehavior.STANDBY;
-	}
-
 	public bool IsEnableToPlay() {
 		return this._state == StatesManager.EBehavior.STANDBY;
 	}
@@ -50,6 +46,8 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 			StopCoroutine (this._currentCoBehavior);
 		}
 	}
+
+	public abstract bool IsAvailable ();
 
 	public abstract IEnumerator CoBehavior ();
 }

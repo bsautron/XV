@@ -18,4 +18,8 @@ public class Explosing : ABehavior {
 		this._currentPS = Instantiate (this.explosion);
 		yield return true;
 	}
+
+	public override bool IsAvailable() {
+		return true;
+	}
 }

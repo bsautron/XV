@@ -14,6 +14,6 @@ public interface IBehavior {
 	void Stop();
 	bool IsEnableToPlay();
 	bool IsEnableToStop();
-	bool CheckIfPossible();
+	bool IsAvailable();
 	IEnumerator CoBehavior();
 }

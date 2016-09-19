@@ -16,4 +16,8 @@ public class Booting : ABehavior {
 		Debug.Log ("Loading: 100%");
 		this.Stop();
 	}
+
+	public override bool IsAvailable() {
+		return true;
+	}
 }
