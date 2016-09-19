@@ -1,24 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//[RequireComponent (typeof (Detailable))]
-
+[RequireComponent (typeof (Informations))]
 public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
 	protected StatesManager.EBehavior	_state;
-
 	protected IEnumerator 				_currentCoBehavior;
 
-	protected string					_shortName;
-	protected string					_description;
-
-	public string	 shortName 
-		{ get { return this._shortName; } }
-
-	public string	 description 
-		{ get { return this._description; } }
-
-	public StatesManager.EBehavior state 
-		{ get { return this._state; } }
+	public StatesManager.EBehavior state { get { return this._state; } }
 
 	public void Start() {
 		this._state = StatesManager.EBehavior.STANDBY;
@@ -48,6 +36,5 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 	}
 
 	public abstract bool IsAvailable ();
-
 	public abstract IEnumerator CoBehavior ();
 }

@@ -2,28 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class AObject : MonoBehaviour, IDetailable {
-	
-	[SerializeField] protected	string	_shortName;
-	public		string	shortName {
-		get { return this._shortName; }
-		set { this._shortName = shortName; }
+[RequireComponent (typeof (Informations))]
+[RequireComponent (typeof (Behaviors))]
+public abstract class AObject : MonoBehaviour, IState<StatesManager.EObject> {
+
+	[SerializeField] private StatesManager.EObject	_state;
+
+	protected Informations _infos;
+	protected Behaviors _behaviors;
+
+	public StatesManager.EObject state 	{ get { return this._state; } }
+
+	public void Awake() {
+		this._behaviors = this.gameObject.GetComponent<Behaviors> ();
+		this._infos = this.gameObject.GetComponent<Informations>();
 	}
-
-	[SerializeField] protected	string	_description;
-	public		string	description {
-		get { return this._description; }
-		set { this._description = description; }
-	}
-
-	protected Dictionary<string, ABehavior> _dicBehavior = new Dictionary<string, ABehavior>();
-
-//	public void Awake() {
-//		// behaviour
-//		ABehavior[] behaviors;
-//		behaviors = this.gameObject.GetComponents<ABehavior> ();
-//		foreach (ABehavior behavior in behaviors) {
-//			this._dicBehavior.Add(behavior.shortName, behavior);
-//		}
-//	}
 }

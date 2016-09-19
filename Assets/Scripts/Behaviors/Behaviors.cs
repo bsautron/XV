@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//[System.Serializable]
 public class Behaviors : MonoBehaviour {
 
 	public ABehavior[]	listBehavior;
 
 	private Dictionary<string, ABehavior>	_dicBehavior = new Dictionary<string, ABehavior>();
+	public Dictionary<string, ABehavior> dic { get { return this._dicBehavior; } }
 
 	public void Start() {
 		this._InstanciateBahaviors (this.listBehavior);

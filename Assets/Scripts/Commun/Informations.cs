@@ -21,7 +21,6 @@ public class Fields: Dictionary<string, object> {
 }
 
 [ExecuteInEditMode]
-[System.Serializable]
 public class Informations : MonoBehaviour {
 	[SerializeField] private string _displayName;
 	[SerializeField] private string _description;
@@ -37,7 +36,8 @@ public class Informations : MonoBehaviour {
 	public string[] customFields;
 
 	public void Start() {
-		this._displayName = this.gameObject.name;
+		if (this._displayName == null)
+			this._displayName = this.gameObject.name;
 		this._createdOn = System.DateTime.Now;
 		this._updatedOn = System.DateTime.Now;
 
