@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 /**
  * All information inside this class will be save.
@@ -10,34 +11,44 @@ using System.Linq;
 [ExecuteInEditMode]
 [System.Serializable]
 public class Informations : MonoBehaviour {
-	[SerializeField] private string _shortName;
+	[SerializeField] private string _displayName;
 	[SerializeField] private string _description;
 	private System.DateTime	_createdOn;
 	private System.DateTime	_updatedOn;
 
-	private GenericDictionary _fields = new GenericDictionary();
+	private Dictionary<string, object> _fields = new Dictionary<string, object>();
 
-//	public string[] customsInformations;
-	public string[] availableInformations;
+	public string[] customFields;
 
 	public void Start() {
-		this._shortName = this.gameObject.name;
+		this._displayName = this.gameObject.name;
 		this._createdOn = System.DateTime.Now;
 		this._updatedOn = System.DateTime.Now;
 
-		this._fields.Add<string> ("shortName", this._shortName);
-		this._fields.Add<string> ("description", this._description);
-		this._fields.AddInterger ("age", 23);
-
-		Debug.Log (this._fields.GetValue<string> ("description"));
+		this._fields.Add("displayName", this._displayName);
+		this._fields.Add("description", this._description);
+		this._fields.Add("createdOn", this._createdOn);
+		this._fields.Add("updatedOn", this._updatedOn);
+		this._fields.Add("position", this.transform.position);
+		this._fields.Add("rotation", this.transform.rotation);
 	}
 
-	public void UpdateField<T>(string fieldName, T value) where T : class {
-		this._updatedOn = System.DateTime.Now;
-		if (this.availableInformations.Contains (fieldName)) {
-			Debug.LogError ("Field '" + fieldName + "' is GOOD");
-			this._fields.Update<T> (fieldName, value);
-		} else
-			Debug.LogError ("Field '" + fieldName + "' is not available");
+	public void UpdateField(string fieldName, object value) {
+
+		if (value is MonoBehaviour)
+			throw new Exception("You can't save a GameObject");
+		if (!this.customFields.Contains (fieldName))
+			Debug.LogError("Field '" + fieldName + "' is not available");
+		else {
+			if (this._fields.ContainsKey(fieldName))
+				this._fields["updatedOn"] = this._updatedOn;
+			else
+				this._fields.Add("updatedOn", this._updatedOn);
+
+			this._updatedOn = System.DateTime.Now;
+			this._fields[fieldName] = value;
+			Debug.Log("Field '" + fieldName + "' has been changed");
+		}
+
 	}
 }
