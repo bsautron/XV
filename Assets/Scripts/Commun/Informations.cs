@@ -34,13 +34,13 @@ public class Informations : MonoBehaviour {
 	}
 
 	public string[] customFields;
-	private List<string> _defaultFileds = new List<string>();
+	private List<string> _defaultFields = new List<string>();
 
 	public void Awake() {
-		this._defaultFileds.Add ("displayName");
-		this._defaultFileds.Add ("description");
-		this._defaultFileds.Add ("position");
-		this._defaultFileds.Add ("rotation");
+		this._defaultFields.Add ("displayName");
+		this._defaultFields.Add ("description");
+		this._defaultFields.Add ("position");
+		this._defaultFields.Add ("rotation");
 
 		if (this._displayName == null)
 			this._displayName = this.gameObject.name;
@@ -57,10 +57,10 @@ public class Informations : MonoBehaviour {
 
 	public void UpdateField(string fieldName, object value) {
 
-		Debug.Log (this._defaultFileds.Contains ("displayName"));
+		Debug.Log (this._defaultFields.Contains ("displayName"));
 		if (value is MonoBehaviour)
 			throw new Exception("You can't save a GameObject");
-		if (!this.customFields.Contains (fieldName) && !this._defaultFileds.Contains(fieldName))
+		if (!this.customFields.Contains (fieldName) && !this._defaultFields.Contains(fieldName))
 			Debug.LogError("Field '" + fieldName + "' is not available");
 		else {
 			if (this._fields.ContainsKey(fieldName))
