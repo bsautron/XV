@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class Behaviors : MonoBehaviour {
 
-	public ABehavior[]	listBehavior;
+	[SerializeField] private ABehavior[]	_tabBehavior;
 
 	private Dictionary<string, ABehavior>	_dicBehavior = new Dictionary<string, ABehavior>();
 	public Dictionary<string, ABehavior> dic { get { return this._dicBehavior; } }
 
 	public void Start() {
-		this._InstanciateBahaviors (this.listBehavior);
+		this._InstanciateBahaviors (this._tabBehavior);
 	}
 
 	private void _InstanciateBahaviors(ABehavior[] listBehavior) {
