@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+if [ "$BRANCH" == "master" ]
+then
+	echo "Hi $USER - Don't push to master plz"
+	echo "Go to your branch"
+	echo ""
+	echo "$> git checkout your-branch"
+	echo "$> git push origin your-branch"
+	exit 1
+else
+	echo "[branch]: $BRANCH"
+fi
+
