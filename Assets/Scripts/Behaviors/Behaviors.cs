@@ -23,7 +23,8 @@ public class Behaviors : MonoBehaviour {
 	}
 
 	private void _MapToDictionary(ABehavior behavior) {
-		this._dicBehavior.Add (behavior.gameObject.name, behavior);
+		string behaviorName = behavior.GetComponent<Informations> ().GetField ("displayName") as string;
+		this._dicBehavior.Add (behaviorName, behavior);
 	}
 
 	private void _AssignParent(ABehavior behavior) {

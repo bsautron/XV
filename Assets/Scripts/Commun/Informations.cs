@@ -57,7 +57,6 @@ public class Informations : MonoBehaviour {
 
 	public void UpdateField(string fieldName, object value) {
 
-		Debug.Log (this._defaultFields.Contains ("displayName"));
 		if (value is MonoBehaviour)
 			throw new Exception("You can't save a GameObject");
 		if (!this.customFields.Contains (fieldName) && !this._defaultFields.Contains(fieldName))
@@ -78,6 +77,10 @@ public class Informations : MonoBehaviour {
 			Debug.Log("Field '" + fieldName + "' has been changed");
 		}
 
+	}
+
+	public object GetField(string fieldName) {
+		return this._fields [fieldName];
 	}
 
 }
