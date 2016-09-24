@@ -2,40 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class AObject : MonoBehaviour, IDetailable {
+[RequireComponent (typeof (Informations))]
+[RequireComponent (typeof (Behaviors))]
+public abstract class AObject : MonoBehaviour, IState<StatesManager.EObject> {
 
-	// OTHER
-	[SerializeField] protected	bool	_takeable;
-	public		bool	takeable {
-		get { return _takeable; }
-	}
+	[SerializeField] private StatesManager.EObject	_state;
 
-	[SerializeField] protected 	bool	_isActive;
-	public		bool	isActive {
-		get { return this._isActive; }
-		set { this._isActive = isActive; }
-	}
+	protected Informations _infos;
+	protected Behaviors _behaviors;
 
-	[SerializeField] protected	string	_shortName;
-	public		string	shortName {
-		get { return this._shortName; }
-		set { this._shortName = shortName; }
-	}
-
-	[SerializeField] protected	string	_description;
-	public		string	description {
-		get { return this._description; }
-		set { this._description = description; }
-	}
-
-	protected Dictionary<string, ABehavior> _dicBehavior = new Dictionary<string, ABehavior>();
+	public StatesManager.EObject state 	{ get { return this._state; } }
 
 	public void Awake() {
-		// behaviour
-		ABehavior[] behaviors;
-		behaviors = this.gameObject.GetComponents<ABehavior> ();
-		foreach (ABehavior behavior in behaviors) {
-			this._dicBehavior.Add(behavior.shortName, behavior);
-		}
+		this._behaviors = this.gameObject.GetComponent<Behaviors> ();
+		this._infos = this.gameObject.GetComponent<Informations>();
 	}
 }
