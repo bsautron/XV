@@ -6,11 +6,14 @@ using System.Collections.Generic;
 public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
 	protected StatesManager.EBehavior	_state;
 	protected IEnumerator 				_currentCoBehavior;
+	private GameObject					_parent;
 
 	public StatesManager.EBehavior state { get { return this._state; } }
+	public GameObject parent { get { return this._parent; } }
 
-	public void Start() {
+	public void Awake() {
 		this._state = StatesManager.EBehavior.STANDBY;
+		this._parent = this.transform.parent.gameObject;
 	}
 
 	public bool IsEnableToPlay() {
