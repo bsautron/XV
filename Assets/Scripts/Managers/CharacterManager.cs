@@ -10,8 +10,11 @@ public class CharacterManager : Singleton<CharacterManager> {
 //		{2, "Character.DepositObject"},
 //		{3, ""}
 //	}
+	private StackInstruction _StackInsruction = new StackInstruction ();
 
-	public void InterpretCommand() {
-	
+	public void InterpretCommand(ABehavior Command) {
+		//if (Command.GetInstanceID) {
+			this._StackInsruction.AddIstruction (Command);
+	//	}
 	}
 }

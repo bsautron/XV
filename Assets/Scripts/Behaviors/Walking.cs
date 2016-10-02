@@ -14,6 +14,10 @@ public class CharacterWalk : ABehavior {
 
 	}
 
+	public void Play () {
+		this.MoveTo ()
+	}
+
 	private void MoveTo () {
 		this.character.agent.destination = this.character.GetPositionTarget ();
 		if (!this.character.agent.pathPending) {
@@ -26,7 +30,6 @@ public class CharacterWalk : ABehavior {
 	}
 
 	public override IEnumerator CoBehavior() {
-		//start event here
 		this.MoveTo ();
 		yield return true;
 	}
