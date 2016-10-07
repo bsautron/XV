@@ -3,13 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class StackInstruction : Queue<Instruction> {
+	
 
-//	// Update is called once per frame
-//	void Update () {
-//		this.CheckStack();
-//	}
-
-//	public void AddInstruction(ABehavior nextInstruction) {
+//	public void lauchInstruction() {
 //		if (nextInstruction) {
 //			this._stackInstruction.Enqueue (new Instruction (nextInstruction));
 //		}
