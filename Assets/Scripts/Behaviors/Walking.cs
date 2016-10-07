@@ -2,28 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterWalk : ABehavior {
+public class Walking : ABehavior {
 	
-	private Character 		character;
+	private Character 		_character;
+	private Vector3			_targetPosition;
 
-	public void Start() {
-		character = GetComponent<Character> ();
-	}
-
-	public void Update () {
-
-	}
-
-	public void Play () {
-		this.MoveTo ()
+	public override void Start() {
+		base.Start ();
+		this._character = this._parent.GetComponent<Character> ();
 	}
 
 	private void MoveTo () {
-		this.character.agent.destination = this.character.GetPositionTarget ();
-		if (!this.character.agent.pathPending) {
-			if (this.character.agent.remainingDistance <= this.character.agent.stoppingDistance) {
-				if (!this.character.agent.hasPath || this.character.agent.velocity.sqrMagnitude == 0f) {
-					//stop event here
+		this._character.agent.destination = this._targetPosition;
+		if (!this._character.agent.pathPending) {
+			if (this._character.agent.remainingDistance <= this._character.agent.stoppingDistance) {
+				if (!this._character.agent.hasPath || this._character.agent.velocity.sqrMagnitude == 0f) {
+					this.Stop ();
 				}
 			}
 		}
@@ -36,5 +30,9 @@ public class CharacterWalk : ABehavior {
 
 	public override bool IsAvailable() {
 		return true;
+	}
+
+	public void SetTargetPosition(Vector3 pos) {
+		this._targetPosition = pos;
 	}
 }

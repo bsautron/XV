@@ -10,11 +10,34 @@ public class CharacterManager : Singleton<CharacterManager> {
 //		{2, "Character.DepositObject"},
 //		{3, ""}
 //	}
-	private StackInstruction _StackInsruction = new StackInstruction ();
+	public Character character;
+	public AObject photocopier;
 
-	public void InterpretCommand(ABehavior Command) {
-		//if (Command.GetInstanceID) {
-			this._StackInsruction.AddIstruction (Command);
-	//	}
+	private GameObject _ObjectBehavior;
+//	private StackInstruction _StackInsruction = new StackInstruction ();
+
+	public void Start() {
+		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Booting"]);
 	}
+
+	public void AddCommand (ABehavior finalCommand) {
+		if (finalCommand) {
+			this.InterpretCommand(finalCommand);
+		}
+	}
+
+	private void InterpretCommand(ABehavior finalCommand) {
+		Instruction instruction = new Instruction ();
+
+		Walking walking = character.GetComponent<Behaviors> ().dic ["Walking"] as Walking;
+		walking.SetTargetPosition (finalCommand.parent.transform.position);
+
+		instruction.Add (walking);
+		instruction.Add (finalCommand);
+		character.stackInstructions.Enqueue (instruction);
+		//this._ObjectBehavior = Command.GetComponents<GameObject> ();
+//		this._StackInsruction.AddInstruction (charact Walking);
+//		this._StackInsruction.AddInstruction (FinalCommand);
+	}	
+
 }

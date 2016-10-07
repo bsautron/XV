@@ -11,7 +11,10 @@ public class Character : MonoBehaviour, ICharacter {
 	public  int				levelOfCharacter;
 	protected Vector3 		_poitionTarget;
 	public NavMeshAgent		agent;
-	
+	private StackInstruction _instructions = new StackInstruction();
+
+	public StackInstruction stackInstructions { get { return this._instructions; } }
+
 	//MonoBehaviour
 	void Start () {
 		this.agent = GetComponent<NavMeshAgent> ();

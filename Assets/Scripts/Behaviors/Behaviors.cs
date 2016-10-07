@@ -9,7 +9,7 @@ public class Behaviors : MonoBehaviour {
 	private Dictionary<string, ABehavior>	_dicBehavior = new Dictionary<string, ABehavior>();
 	public Dictionary<string, ABehavior> dic { get { return this._dicBehavior; } }
 
-	public void Start() {
+	public void Awake() {
 		this._InstanciateBahaviors (this._tabBehavior);
 	}
 

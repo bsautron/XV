@@ -2,20 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Instruction {
+public class Instruction : List<ABehavior>, IState<StatesManager.EInstruction> {
 
-	private ABehavior _behavior;
-	private bool _endOfInstruction = false;
+	protected StatesManager.EInstruction	_state;
+	public StatesManager.EInstruction state { get { return this._state; } }
+//	private ABehavior _behavior;
+//	private bool _endOfInstruction = false;
+//
+//	public Instruction() {
+//
+//	}
 
-	public Instruction(ABehavior behavior) {
-		this._behavior = behavior; 
-	}
+//	public bool checkIfEndOfCommand() {
+//		return (this._endOfInstruction);
+//	}
 
-	public bool checkIfEndOfCommand() {
-		return (this._endOfInstruction);
-	}
-
-	public ABehavior GetBehavior () {
-		return (_behavior);
-	}
+//	public ABehavior GetBehavior () {
+//		return (_behavior);
+//	}
 }
