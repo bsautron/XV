@@ -2,7 +2,11 @@
 using System.Collections;
 
 public class Taking : ABehavior {
+
+	public Character caracter;
+
 	public override IEnumerator CoBehavior() {
+		this.transform.parent = caracter.transform;
 		yield return true;
 	}
 

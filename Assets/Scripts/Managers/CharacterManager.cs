@@ -10,7 +10,11 @@ public class CharacterManager : Singleton<CharacterManager> {
 	private GameObject _ObjectBehavior;
 
 	public void Start() {
-		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Booting"]);
+		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Taking"]);
+	}
+
+	public void Update () {
+		checkCurrentCommand ();
 	}
 
 	public void AddCommand (ABehavior finalCommand) {
@@ -30,4 +34,16 @@ public class CharacterManager : Singleton<CharacterManager> {
 		character.stackInstructions.Enqueue (instruction);
 	}	
 
+	public void checkCurrentCommand () {
+		Instruction currentInstruction;
+
+		if (character.stackInstructions.Count > 0) {
+			currentInstruction = character.stackInstructions.Peek ();
+			if (currentInstruction.state == StatesManager.EInstruction.FINISHED) {
+				character.stackInstructions.Dequeue ();
+			} else {
+				currentInstruction.LaunchCommand ();
+			}
+		}
+	}
 }

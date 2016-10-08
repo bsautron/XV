@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent (typeof (Informations))]
 public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
-	protected StatesManager.EBehavior	_state;
+	[SerializeField] protected StatesManager.EBehavior	_state;
 	protected IEnumerator 				_currentCoBehavior;
 	protected GameObject				_parent;
 

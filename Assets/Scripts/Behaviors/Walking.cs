@@ -6,25 +6,29 @@ public class Walking : ABehavior {
 	
 	private Character 		_character;
 	private Vector3			_targetPosition;
+	private bool			_onDeplacement = false;
 
 	public override void Start() {
 		base.Start ();
 		this._character = this._parent.GetComponent<Character> ();
 	}
 
-	private void MoveTo () {
-		this._character.agent.destination = this._targetPosition;
-		if (!this._character.agent.pathPending) {
-			if (this._character.agent.remainingDistance <= this._character.agent.stoppingDistance) {
-				if (!this._character.agent.hasPath || this._character.agent.velocity.sqrMagnitude == 0f) {
-					this.Stop ();
-				}
+	public void Update() {
+		NavMeshAgent charaterAgent = this._character.agent;
+		if (this.state == StatesManager.EBehavior.RUNNING && charaterAgent.hasPath) {
+			if (charaterAgent.remainingDistance <= charaterAgent.stoppingDistance) {
+				this._onDeplacement = false;
+				this.Stop ();
 			}
 		}
 	}
-
+	
 	public override IEnumerator CoBehavior() {
-		this.MoveTo ();
+		this._character.agent.SetDestination(this._targetPosition);
+		this._onDeplacement = true;
+		while (this._onDeplacement) {
+			yield return true;
+		}
 		yield return true;
 	}
 
