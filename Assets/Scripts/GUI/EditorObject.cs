@@ -268,7 +268,9 @@ public class EditorObject : MonoBehaviour {
 		}
 		this._editorColorRendererDropdown.value = 0;
 		this._editorColorMaterialDropdown.value = 0;
-		this._editorColorResultImage.color = new Color32 ((byte)this._aObj.renderers[this._selectRenderer].materials[this._selectMaterial].color.r, (byte)this._aObj.renderers[this._selectRenderer].materials[this._selectMaterial].color.g, (byte)this._aObj.renderers[this._selectRenderer].materials[this._selectMaterial].color.b, (byte)this._aObj.renderers[this._selectRenderer].materials[this._selectMaterial].color.a);
+
+		Color selectMaterial = this._aObj.renderers [this._selectRenderer].materials [this._selectMaterial].color;
+		this._editorColorResultImage.color = new Color32 ((byte)selectMaterial.r, (byte)selectMaterial.g, (byte)selectMaterial.b, (byte)selectMaterial.a);
 	}
 
 	private void UpdateColorPickerValue () {

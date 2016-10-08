@@ -14,10 +14,10 @@ public abstract class AObject : MonoBehaviour, IState<StatesManager.EObject> {
 		get { return _editeable; }
 	}
 	
-	[SerializeField] protected	bool	_takeable;
-	public		bool	takeable {
-		get { return _takeable; }
-	}
+//	[SerializeField] protected	bool	_takeable;
+//	public		bool	takeable {
+//		get { return _takeable; }
+//	}
 	
 	[SerializeField] protected 	bool	_isActive;
 	public		bool	isActive {
