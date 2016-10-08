@@ -30,7 +30,7 @@ public class Informations : MonoBehaviour {
 	private Fields _fields = new Fields();
 
 	public Fields fields {
-		get { return new Fields(this._fields); }
+		get { return this._fields; }
 	}
 
 	public string[] customFields;
