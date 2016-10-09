@@ -24,6 +24,5 @@ public class Instruction : List<ABehavior>, IState<StatesManager.EInstruction> {
 			}
 		}
 	}
-
-	public 
+	
 }

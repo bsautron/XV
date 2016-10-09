@@ -7,9 +7,11 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 	[SerializeField] protected StatesManager.EBehavior	_state;
 	protected IEnumerator 				_currentCoBehavior;
 	protected GameObject				_parent;
+	protected GameObject				_target;
 
 	public StatesManager.EBehavior state { get { return this._state; } }
 	public GameObject parent { get { return this._parent; } }
+	public GameObject target { get { return this._target; } set { this._target = value; } }
 
 	public void Awake() {
 		this._state = StatesManager.EBehavior.STANDBY;

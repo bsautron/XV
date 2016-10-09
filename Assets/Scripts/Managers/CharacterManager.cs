@@ -11,6 +11,7 @@ public class CharacterManager : Singleton<CharacterManager> {
 
 	public void Start() {
 		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Taking"]);
+		character = FindObjectOfType<Character> ();
 	}
 
 	public void Update () {
@@ -28,7 +29,7 @@ public class CharacterManager : Singleton<CharacterManager> {
 
 		Walking walking = character.GetComponent<Behaviors> ().dic ["Walking"] as Walking;
 		walking.SetTargetPosition (finalCommand.parent.transform.position);
-
+		finalCommand.target = character.gameObject;
 		instruction.Add (walking);
 		instruction.Add (finalCommand);
 		character.stackInstructions.Enqueue (instruction);
