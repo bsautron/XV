@@ -82,11 +82,21 @@ public class EditorObject : MonoBehaviour {
 
 	void Update () {
 		if (this._isTransformPosition) {
-			if (Input.GetKey (KeyCode.X)) {
-				UpdateTransformPosition ("x");
-			} else if (Input.GetKey (KeyCode.Z)) {
-				UpdateTransformPosition ("z");
+			if (Input.GetMouseButton(0)) {
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+
+				if (Physics.Raycast(ray, out hit, 100)) {
+					Debug.Log(hit.collider.name);
+					if (hit.collider.CompareTag("Ground"))
+						this.UpdateTransformPosition(hit.point);
+				}
 			}
+//			if (Input.GetKey (KeyCode.X)) {
+//				UpdateTransformPosition ("x");
+//			} else if (Input.GetKey (KeyCode.Z)) {
+//				UpdateTransformPosition ("z");
+//			}
 		} else if (this._isTransformRotation) {
 			UpdateTransformRotation ();
 		} else if (this._isTransformScale) {
@@ -284,7 +294,7 @@ public class EditorObject : MonoBehaviour {
 		this._colorPickerLoadValue = false;
 	}
 
-	private void UpdateTransformPosition (string vector) {
+	private void UpdateTransformPosition (Vector3 mousePosition) {
 		GameObject go = this._aObj.gameObject;
 		float minx = -this._ground.transform.localScale.x / 2 - (-go.GetComponent<Collider>().bounds.size.x);
 		float maxx = this._ground.transform.localScale.x / 2;
@@ -294,23 +304,24 @@ public class EditorObject : MonoBehaviour {
 			this._mouseX = Input.mousePosition.x;
 			this._mouseY = Input.mousePosition.z;
 		}
-		if (Input.GetMouseButton (0) && vector == "x") {
-			if (Input.mousePosition.x < this._mouseX - this._mousePositionRate) {
-				go.transform.Translate (new Vector3 (-0.2f, 0, 0));
-				this._mouseX = Input.mousePosition.x;
-			} else if (Input.mousePosition.x > this._mouseX + this._mousePositionRate) {
-				go.transform.Translate (new Vector3 (0.2f, 0, 0));
-				this._mouseX = Input.mousePosition.x;
-			}
-		} else if (Input.GetMouseButton (0) && vector == "z") {
-			if (Input.mousePosition.y < this._mouseY - this._mousePositionRate) {
-				go.transform.Translate (new Vector3 (0, 0, -0.2f));
-				this._mouseY = Input.mousePosition.y;
-			} else if (Input.mousePosition.y > this._mouseY + this._mousePositionRate) {
-				go.transform.Translate (new Vector3 (0, 0, 0.2f));
-				this._mouseY = Input.mousePosition.y;
-			}
-		}
+		go.transform.position = new Vector3 (mousePosition.x, 0.5f, mousePosition.z);;
+//		if (Input.GetMouseButton (0)) {
+//			if (Input.mousePosition.x < this._mouseX - this._mousePositionRate) {
+//				go.transform.Translate (new Vector3 (-MapManager.instance.pad, 0, 0));
+//				this._mouseX = Input.mousePosition.x;
+//			} else if (Input.mousePosition.x > this._mouseX + this._mousePositionRate) {
+//				go.transform.Translate (new Vector3 (MapManager.instance.pad, 0, 0));
+//				this._mouseX = Input.mousePosition.x;
+//			}
+//		} else if (Input.GetMouseButton (0)) {
+//			if (Input.mousePosition.y < this._mouseY - this._mousePositionRate) {
+//				go.transform.Translate (new Vector3 (0, 0, -MapManager.instance.pad));
+//				this._mouseY = Input.mousePosition.y;
+//			} else if (Input.mousePosition.y > this._mouseY + this._mousePositionRate) {
+//				go.transform.Translate (new Vector3 (0, 0, MapManager.instance.pad));
+//				this._mouseY = Input.mousePosition.y;
+//			}
+//		}
 		Vector3 v3 = go.transform.position;
 		v3.x = Mathf.Clamp (v3.x, minx, maxx);
 		v3.z = Mathf.Clamp (v3.z, minz, maxz);

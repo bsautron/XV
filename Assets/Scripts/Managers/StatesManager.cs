@@ -7,4 +7,5 @@ public class StatesManager : Singleton<StatesManager> {
 	public enum EBehavior {STANDBY, RUNNING};
 	public enum EObject {NOTSELECTED, SELECTED, NOTAVAILABLE};
 	public enum EGame {STOP, PLAY, PAUSE, PAUSEPLUS};
+	public enum EVolume {UNMUTE, MUTE};
 }
