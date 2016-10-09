@@ -55,6 +55,8 @@ public class MainGUI : MonoBehaviour {
 
 	void EditObject (GameObject go) {
 		AObject aObj;
+
+
 		if (aObj = go.GetComponent<AObject> ()) {
 			if (aObj.editeable) {
 				this._editorObject.Init (aObj);
@@ -76,5 +78,6 @@ public class MainGUI : MonoBehaviour {
 		// Open Settings
 		Debug.Log("Settings");
 		this._buttonPanel.alpha = 0;
+		this._buttonPanel.blocksRaycasts = false;
 	}
 }

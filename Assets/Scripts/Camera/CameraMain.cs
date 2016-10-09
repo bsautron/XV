@@ -13,8 +13,8 @@ public class CameraMain : MonoBehaviour {
 	public Transform target;
 
 	// Rotation
-	private float	_yMin = 0f;
-	private float	_yMax = 80f;
+	//private float	_yMin = 0f;
+	//private float	_yMax = 80f;
 
 	// Zoom (3 types of zoom "fiedlofview, rotate and vector, vector") // Add the options in Preferences user and replace or move bool in config
 	public float	speedFOV;
@@ -22,7 +22,7 @@ public class CameraMain : MonoBehaviour {
 	public float	maxFOV;
 	public bool		zoomFieldOfView;
 	private bool 	zoomRotateAndVector = false; // Bug
-	private bool 	zoomVector = false; // Bug
+	//private bool 	zoomVector = false; // Bug
 
 	void Update () {
 		if (Input.GetMouseButton(1)) {
@@ -33,13 +33,13 @@ public class CameraMain : MonoBehaviour {
 
 	void FixedUpdate () {
 		float speed = Time.deltaTime * this.speedMovement;
-		if (Input.GetKey (KeyCode.LeftArrow) || Input.mousePosition.x < 0 + 5) {
+		if (Input.GetKey (KeyCode.LeftArrow) && (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || Input.mousePosition.x < 0 + 5) {
 			this.transform.Translate (new Vector3 (-speed, 0, 0));
-		} else if (Input.GetKey (KeyCode.RightArrow) || Input.mousePosition.x > Screen.width - 5) {
+		} else if (Input.GetKey (KeyCode.RightArrow) && (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || Input.mousePosition.x > Screen.width - 5) {
 			this.transform.Translate (new Vector3 (speed, 0, 0));
-		} else if (Input.GetKey (KeyCode.UpArrow) || Input.mousePosition.y > Screen.height - 5) {
+		} else if (Input.GetKey (KeyCode.UpArrow) && (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || Input.mousePosition.y > Screen.height - 5) {
 			this.transform.Translate (target.forward * speed, Space.World);
-		} else if (Input.GetKey (KeyCode.DownArrow) || Input.mousePosition.y < 0 + 5) {
+		} else if (Input.GetKey (KeyCode.DownArrow) && (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) || Input.mousePosition.y < 0 + 5) {
 			this.transform.Translate (target.forward * -speed, Space.World);
 		} 
 		ZoomType ();

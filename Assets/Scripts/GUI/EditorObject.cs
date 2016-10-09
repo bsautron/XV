@@ -98,7 +98,6 @@ public class EditorObject : MonoBehaviour {
 		this._aObj = aObj;
 		this.CloseDelete ();
 		this._isOpenColorPicker = false;
-		Debug.Log (this._aObj.infos);
 		this._editorNameInputField.text = this._aObj.infos.fields["displayName"] as String;
 		this._editorDescriptionInputField.text = this._aObj.infos.fields["description"] as String;
 		this._editorMessageText.text = "";
