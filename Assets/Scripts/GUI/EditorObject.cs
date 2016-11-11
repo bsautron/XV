@@ -81,16 +81,24 @@ public class EditorObject : MonoBehaviour {
 	}
 
 	void Update () {
+		Ray rayy = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hitt;
+
+		if (Physics.Raycast (rayy, out hitt, 100f)) {
+			Debug.DrawLine (Camera.main.ScreenToWorldPoint (Input.mousePosition), hitt.point, Color.green);
+		}
+		
 		if (this._isTransformPosition) {
 			if (Input.GetMouseButton(0)) {
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				RaycastHit hit;
 
-				if (Physics.Raycast(ray, out hit, 100)) {
+				if (Physics.Raycast(ray, out hit, 100f)) {
+					Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), hit.point, Color.red);
 					Debug.Log(hit.collider.name);
-					if (hit.collider.CompareTag("Ground"))
-						this.UpdateTransformPosition(hit.point);
+					this.UpdateTransformPosition(hit.point);
 				}
+			
 			}
 //			if (Input.GetKey (KeyCode.X)) {
 //				UpdateTransformPosition ("x");
@@ -106,6 +114,7 @@ public class EditorObject : MonoBehaviour {
 
 	public void Init (AObject aObj) {
 		this._aObj = aObj;
+		this._aObj.gameObject.layer = 2;
 		this.CloseDelete ();
 		this._isOpenColorPicker = false;
 		this._editorNameInputField.text = this._aObj.infos.fields["displayName"] as String;

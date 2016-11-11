@@ -9,7 +9,6 @@ public class AudioManager : Singleton<AudioManager> , IState<StatesManager.EVolu
 		set { this._state = value; }
 	}
 
-
 	public int main = 100;
 	public int environement = 100;
 	public int characters = 100;
