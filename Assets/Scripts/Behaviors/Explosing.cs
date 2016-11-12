@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Threading;
 
 public class Explosing : ABehavior {
 
 	public ParticleSystem		explosion;
 	private ParticleSystem		_currentPS;
-
-	public void Update () {
-		if (this._currentPS && !this._currentPS.IsAlive ()) {
-			Destroy (this._currentPS.gameObject);
-			this.Stop ();
-		}
-	}
 	
 	public override IEnumerator CoBehavior() {
 		this._currentPS = Instantiate (this.explosion);
+		if (this._currentPS) {
+			while (this._currentPS.IsAlive ()) {
+				yield return true;
+			}
+			Destroy (this._currentPS.gameObject);
+		}
+		this.Stop ();
 		yield return true;
 	}
 

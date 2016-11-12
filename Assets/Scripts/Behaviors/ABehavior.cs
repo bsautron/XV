@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent (typeof (Informations))]
 public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior> {
