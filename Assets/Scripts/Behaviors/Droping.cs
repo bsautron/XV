@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Droping : ABehavior {
 
-	public Character caractere;
-
 	public override IEnumerator CoBehavior() {
+		this.transform.parent.transform.parent = null;
+		this.Stop ();
 		yield return true;
 	}
 

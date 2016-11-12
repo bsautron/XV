@@ -31,14 +31,16 @@ public class CharacterManager : Singleton<CharacterManager> {
 		Instruction instruction = new Instruction ();
 
 		Walking walking = character.GetComponent<Behaviors> ().dic ["Walking"] as Walking;
-		walking.SetTargetPosition (finalCommand.parent.transform.position);
-		walking.SetTargetPosition (target2.transform.position);
+		walking.AddContext (finalCommand.parent.transform.position);
+		walking.AddContext (target2.transform.position);
+		walking.AddContext (this.character.transform.position);
 		
 		finalCommand.target = character.gameObject;
 		instruction.Add (walking);
 		instruction.Add (finalCommand);
 		instruction.Add (walking);
-
+		instruction.Add (this.photocopier.GetComponent<Behaviors> ().dic ["Droping"]);
+		instruction.Add (walking);
 
 		character.stackInstructions.Enqueue (instruction);
 	}	

@@ -9,8 +9,6 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 	protected GameObject				_parent;
 	protected GameObject				_target;
 
-	Queue<T>
-
 	public StatesManager.EBehavior state { get { return this._state; } }
 	public GameObject parent { get { return this._parent; } }
 	public GameObject target { get { return this._target; } set { this._target = value; } }
