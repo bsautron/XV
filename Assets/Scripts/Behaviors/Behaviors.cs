@@ -15,7 +15,7 @@ public class Behaviors : MonoBehaviour {
 
 	private void _InstanciateBahaviors(ABehavior[] listBehavior) {
 		foreach (ABehavior behavior in listBehavior) {
-			ABehavior b = Instantiate (behavior) as ABehavior;
+			ABehavior b = Instantiate (behavior, this.transform.position, Quaternion.identity) as ABehavior;
 
 			this._MapToDictionary (b);
 			this._AssignParent (b);

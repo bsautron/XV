@@ -14,6 +14,7 @@ public class Explosing : ABehavior {
 			}
 			Destroy (this._currentPS.gameObject);
 		}
+		this._currentPS = Instantiate (this.explosion, this.transform.position, Quaternion.identity) as ParticleSystem;
 		this.Stop ();
 		yield return true;
 	}

@@ -7,11 +7,14 @@ public class CharacterManager : Singleton<CharacterManager> {
 	public Character character;
 	public AObject photocopier;
 
+	public GameObject target2;
+
 	private GameObject _ObjectBehavior;
 
 	public void Start() {
 		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Taking"]);
 		character = FindObjectOfType<Character> ();
+
 	}
 
 	public void Update () {
@@ -29,9 +32,14 @@ public class CharacterManager : Singleton<CharacterManager> {
 
 		Walking walking = character.GetComponent<Behaviors> ().dic ["Walking"] as Walking;
 		walking.SetTargetPosition (finalCommand.parent.transform.position);
+		walking.SetTargetPosition (target2.transform.position);
+		
 		finalCommand.target = character.gameObject;
 		instruction.Add (walking);
 		instruction.Add (finalCommand);
+		instruction.Add (walking);
+
+
 		character.stackInstructions.Enqueue (instruction);
 	}	
 

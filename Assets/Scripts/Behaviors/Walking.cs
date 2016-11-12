@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Walking : ABehavior {
+public class Walking : ABehavior<bool> {
 	
 	private Character 		_character;
+	private Queue<Vector3> 	_targetPositionTab = new Queue<Vector3>();
 	private Vector3			_targetPosition;
 	private bool			_onDeplacement = false;
 
@@ -14,22 +15,35 @@ public class Walking : ABehavior {
 	}
 
 	public void Update() {
-		NavMeshAgent charaterAgent = this._character.agent;
-		if (this.state == StatesManager.EBehavior.RUNNING && charaterAgent.hasPath) {
-			if (charaterAgent.remainingDistance <= charaterAgent.stoppingDistance) {
-				this._onDeplacement = false;
-				this.Stop ();
-			}
-		}
+
 	}
 	
 	public override IEnumerator CoBehavior() {
+		NavMeshAgent charaterAgent = this._character.agent;
+		this._targetPosition = this._targetPositionTab.Peek ();
 		this._character.agent.SetDestination(this._targetPosition);
-		this._onDeplacement = true;
-		while (this._onDeplacement) {
+
+		Debug.Log (this._targetPosition);
+//		this._onDeplacement = true;
+
+
+		yield return new WaitForEndOfFrame();
+
+//		charaterAgent.Resume ();
+		Debug.Log (charaterAgent.hasPath);
+		Debug.Log(charaterAgent.remainingDistance + " > " + charaterAgent.stoppingDistance);
+
+		while (charaterAgent.remainingDistance > charaterAgent.stoppingDistance) {
 			yield return true;
 		}
-		yield return true;
+//		this._onDeplacement = false;
+//		charaterAgent.Stop ();
+		this._targetPositionTab.Dequeue ();
+		this.Stop ();
+		Debug.Log (charaterAgent.remainingDistance);
+		Debug.Log (charaterAgent.hasPath);
+		
+		yield return new WaitForSeconds(2f);
 	}
 
 	public override bool IsAvailable() {
@@ -37,6 +51,7 @@ public class Walking : ABehavior {
 	}
 
 	public void SetTargetPosition(Vector3 pos) {
-		this._targetPosition = pos;
+		this._targetPositionTab.Enqueue(pos);
 	}
+
 }
