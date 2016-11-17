@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DisplayChoices : AClickable {
+public class OpenRadialMenu : AClickable {
+
+	public RadialMenu radialMenuPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +27,18 @@ public class DisplayChoices : AClickable {
 
 	public override void Activate(){
 		Debug.Log("Popup Info activate");
+		SpawnMenu ();
 		_active = true;
 	}
 
 	public override void Desactivate(){
 		Debug.Log("Popup Info desactivate");
 		_active = false;
+	}
+
+	public void SpawnMenu() {
+		RadialMenu newMenu = Instantiate (radialMenuPrefab) as RadialMenu;
+		newMenu.transform.SetParent (GUIManager.instance.gameObject.transform, false); //TO DO add transform of maincanvas
+//		newMenu.transform.position =; // TO DO center postion of object
 	}
 }
