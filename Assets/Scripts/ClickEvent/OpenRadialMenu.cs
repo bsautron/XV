@@ -5,14 +5,17 @@ public class OpenRadialMenu : AClickable {
 
 	public RadialMenu radialMenuPrefab;
 
+	private	AObject	_object;
+	private RadialMenu newMenu;
+
 	// Use this for initialization
 	void Start () {
-	
+		_object = gameObject.GetComponent<AObject> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 
 	public override void OnMouseOver(){
@@ -27,18 +30,22 @@ public class OpenRadialMenu : AClickable {
 
 	public override void Activate(){
 		Debug.Log("Popup Info activate");
-		SpawnMenu ();
-		_active = true;
+		this.SpawnMenu ();
+		this._active = true;
 	}
 
 	public override void Desactivate(){
 		Debug.Log("Popup Info desactivate");
-		_active = false;
+		Destroy (newMenu.gameObject);
+		ClickManager.instance.resetCurrentEvent ();
+		this._active = false;
 	}
 
 	public void SpawnMenu() {
-		RadialMenu newMenu = Instantiate (radialMenuPrefab) as RadialMenu;
+		newMenu = Instantiate (radialMenuPrefab) as RadialMenu;
 		newMenu.transform.SetParent (GUIManager.instance.gameObject.transform, false); //TO DO add transform of maincanvas
-//		newMenu.transform.position =; // TO DO center postion of object
+//		newMenu.transform.position = Input.mousePosition; // TO DO center position of object
+		newMenu.SpawnButtons(_object);
+
 	}
 }

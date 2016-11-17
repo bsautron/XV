@@ -13,7 +13,6 @@ public class ClickManager : Singleton<ClickManager> {
 		int tmpId = -1;
 		for (int i = 0; i < _listAClickable.Count; i++) {
 			if (_listAClickable [i] == newEvent) {
-				Debug.Log (newEvent.gameObject.name);
 				tmpId = i;
 			}
 		}
@@ -23,6 +22,10 @@ public class ClickManager : Singleton<ClickManager> {
 			_idCurrentEvent = tmpId;
 			_listAClickable [_idCurrentEvent].Activate ();
 		}
+	}
+
+	public void resetCurrentEvent() {
+		_idCurrentEvent = -1;
 	}
 
 	public void AddAClickable(AClickable newElem) {

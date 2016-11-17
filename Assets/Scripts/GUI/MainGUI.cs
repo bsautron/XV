@@ -5,8 +5,8 @@ using System.Collections;
 public class MainGUI : MonoBehaviour {
 
 	private	Canvas			_mainCanvas;
-	private	CanvasGroup		_buttonPanel;
-	private	CanvasGroup		_editorPanel;
+//	private	CanvasGroup		_buttonPanel;
+//	private	CanvasGroup		_editorPanel;
 
 	// Speed
 	private Image 			_stateSpeedImage;
@@ -21,8 +21,8 @@ public class MainGUI : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		this._mainCanvas = this.GetComponent<Canvas> ();
-		this._buttonPanel = GameObject.Find ("ButtonPanel").GetComponent<CanvasGroup> ();
-		this._editorPanel = GameObject.Find ("EditorPanel").GetComponent<CanvasGroup> ();
+//		this._buttonPanel = GameObject.Find ("ButtonPanel").GetComponent<CanvasGroup> ();
+//		this._editorPanel = GameObject.Find ("EditorPanel").GetComponent<CanvasGroup> ();
 
 		// Speed
 		this._stateSpeedImage = GameObject.Find("StateSpeedImage").GetComponent<Image>();
@@ -34,28 +34,30 @@ public class MainGUI : MonoBehaviour {
 	}
 
 	void Update () {
-		if (this._editorPanel.alpha == 1 && !this._isOpenEditorObject && Input.GetMouseButtonDown(0)) {
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			RaycastHit hit;
-
-			if (Physics.Raycast (ray, out hit, 1000)) {
-				EditObject (hit.transform.gameObject);
-			}
-		}
+//		if (this._editorPanel.alpha == 1 && !this._isOpenEditorObject && Input.GetMouseButtonDown(0)) {
+//			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+//			RaycastHit hit;
+//
+//			if (Physics.Raycast (ray, out hit, 1000)) {
+//				EditObject (hit.transform.gameObject);
+//			}
+//		}
 
 		// Test
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			this._buttonPanel.alpha = 1;
+//			this._buttonPanel.alpha = 1;
 			GameManager.instance.state = StatesManager.EGame.PLAY;
 			this._stateSpeedImage.sprite = this._speedPlayImage;
-			this._editorPanel.alpha = 0;
-			this._editorPanel.blocksRaycasts = false;
+//			this._editorPanel.alpha = 0;
+//			this._editorPanel.blocksRaycasts = false;
 		}
 	}
 
-	void EditObject (GameObject go) {
+	public void EditObject (GameObject go) {
 		AObject aObj;
 
+		GameManager.instance.state = StatesManager.EGame.PAUSE;
+		this._stateSpeedImage.sprite = this._speedPauseImage;
 
 		if (aObj = go.GetComponent<AObject> ()) {
 			if (aObj.editeable) {
@@ -66,18 +68,18 @@ public class MainGUI : MonoBehaviour {
 		}
 	}
 
-	public void OpenEditor () {
-		this._buttonPanel.alpha = 0;
-		this._editorPanel.alpha = 1;
-		this._isOpenEditorObject = false;
-		GameManager.instance.state = StatesManager.EGame.PAUSE;
-		this._stateSpeedImage.sprite = this._speedPauseImage;
-	}
+//	public void OpenEditor () {
+//		this._buttonPanel.alpha = 0;
+//		this._editorPanel.alpha = 1;
+//		this._isOpenEditorObject = false;
+//		GameManager.instance.state = StatesManager.EGame.PAUSE;
+//		this._stateSpeedImage.sprite = this._speedPauseImage;
+//	}
 
 	public void OpenSettings () {
 		// Open Settings
 		Debug.Log("Settings");
-		this._buttonPanel.alpha = 0;
-		this._buttonPanel.blocksRaycasts = false;
+//		this._buttonPanel.alpha = 0;
+//		this._buttonPanel.blocksRaycasts = false;
 	}
 }
