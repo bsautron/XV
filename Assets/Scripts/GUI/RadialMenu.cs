@@ -31,11 +31,11 @@ public class RadialMenu : MonoBehaviour {
 
 		newButton.transform.localPosition = new Vector3 (xPos, yPos, 0f) * 100f;
 		Button bt = newButton.GetComponent<Button> ();
-		bt.onClick.AddListener (delegate {fctOnclick();});
+		bt.onClick.AddListener (() => {fctOnclick();});
 		bt.GetComponentInChildren<Text> ().text = name;
 	}
 
-	public void SpawnButtons(AObject obj){
+	public void SpawnButtons(AObject obj) {
 		Behaviors behaviors = obj.GetComponent<Behaviors> ();
 		int i = 1;
 

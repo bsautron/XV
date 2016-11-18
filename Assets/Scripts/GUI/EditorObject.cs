@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 public class EditorObject : MonoBehaviour {
 
+	public	Text 		behaviorNameTextPrefab;
+	public	InputField 	behaviorInputFieldPrefab;
+
 	private	CanvasGroup	_editorObjectPanel;
 	private	CanvasGroup	_editorColorPickerPanel;
 	private CanvasGroup	_editorConfirmDeletePanel;
@@ -14,6 +17,7 @@ public class EditorObject : MonoBehaviour {
 	private	Text 		_editorMessageText;
 	private	Sprite		_editorColorPickerImage;
 	private Color[] 	_colorData;
+	private	GameObject	_behaviorsPanel;
 
 	private	AObject 	_aObj;
 
@@ -57,6 +61,7 @@ public class EditorObject : MonoBehaviour {
 		this._editorMessageText = GameObject.Find ("EditorMessageText").GetComponent<Text> ();
 		this._editorColorPickerImage = GameObject.Find ("EditorColorPickerImage").GetComponent<Image>().sprite;
 		this._colorData = this._editorColorPickerImage.texture.GetPixels ();
+		this._behaviorsPanel = GameObject.Find ("BehaviorsPanel");
 
 		// Transform
 		this._ground = GameObject.Find("Ground");
@@ -94,6 +99,23 @@ public class EditorObject : MonoBehaviour {
 		}
 	}
 
+	private void InstantiateEditBehaviors(AObject aObj) {
+		Behaviors behaviors = aObj.GetComponent<Behaviors> ();
+
+		float yPos = 170f;
+		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
+			Text behaviorName = Instantiate (behaviorNameTextPrefab) as Text;
+			behaviorName.transform.SetParent (this._behaviorsPanel.transform, false);
+			behaviorName.transform.localPosition = new Vector3(-50f, yPos, 0f);
+			behaviorName.text = elem.Key;
+			InputField behaviorInputField = Instantiate (behaviorInputFieldPrefab) as InputField;
+			behaviorInputField.transform.SetParent (this._behaviorsPanel.transform, false);
+			behaviorInputField.transform.localPosition = new Vector3(-50f, yPos - 25f, 0f);
+			behaviorInputField.text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			yPos -= 60f;
+		}
+	}
+
 	public void Init (AObject aObj) {
 		this._aObj = aObj;
 		this.CloseDelete ();
@@ -105,6 +127,7 @@ public class EditorObject : MonoBehaviour {
 		this._editorTransformText.text = "";
 		this._mouseX = 0;
 		this._mouseY = 0;
+		InstantiateEditBehaviors (aObj);
 	}
 
 	public void OpenColorPicker () {
