@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 public class EditorObject : MonoBehaviour {
 
-	public	Text 		behaviorNameTextPrefab;
-	public	InputField 	behaviorInputFieldPrefab;
+	public	GameObject	behaviorInfosPrefab;
 
 	private	CanvasGroup	_editorObjectPanel;
 	private	CanvasGroup	_editorColorPickerPanel;
@@ -102,16 +101,25 @@ public class EditorObject : MonoBehaviour {
 	private void InstantiateEditBehaviors(AObject aObj) {
 		Behaviors behaviors = aObj.GetComponent<Behaviors> ();
 
-		float yPos = 170f;
+		float yPos = 0f;
 		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
-			Text behaviorName = Instantiate (behaviorNameTextPrefab) as Text;
-			behaviorName.transform.SetParent (this._behaviorsPanel.transform, false);
-			behaviorName.transform.localPosition = new Vector3(-50f, yPos, 0f);
-			behaviorName.text = elem.Key;
-			InputField behaviorInputField = Instantiate (behaviorInputFieldPrefab) as InputField;
-			behaviorInputField.transform.SetParent (this._behaviorsPanel.transform, false);
-			behaviorInputField.transform.localPosition = new Vector3(-50f, yPos - 25f, 0f);
-			behaviorInputField.text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			GameObject behaviorInfos = Instantiate (behaviorInfosPrefab);
+			Debug.Log (behaviorInfos.name);
+			behaviorInfos.transform.SetParent (this._behaviorsPanel.transform, false);
+			behaviorInfos.transform.localPosition = new Vector3(0f, yPos, 0f);
+
+			Debug.Log("behaviorInfos.GetComponent<Text>(): " + behaviorInfos.GetComponent<Text>());
+			behaviorInfos.GetComponentInChildren<Text>().text = elem.Key;
+			behaviorInfos.GetComponentInChildren<InputField>().text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			yPos -= 60f;
+			behaviorInfos = Instantiate (behaviorInfosPrefab);
+			Debug.Log (behaviorInfos.name);
+			behaviorInfos.transform.SetParent (this._behaviorsPanel.transform, false);
+			behaviorInfos.transform.localPosition = new Vector3(0f, yPos, 0f);
+			
+			Debug.Log("behaviorInfos.GetComponent<Text>(): " + behaviorInfos.GetComponent<Text>());
+			behaviorInfos.GetComponentInChildren<Text>().text = elem.Key;
+			behaviorInfos.GetComponentInChildren<InputField>().text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
 			yPos -= 60f;
 		}
 	}
