@@ -17,7 +17,7 @@ public class EditorObject : MonoBehaviour {
 	private	Sprite		_editorColorPickerImage;
 	private Color[] 	_colorData;
 	private	GameObject	_behaviorsPanel;
-
+	private InputField[]		_tabBehaviorName;
 	private	AObject 	_aObj;
 
 	// Color picker
@@ -100,26 +100,18 @@ public class EditorObject : MonoBehaviour {
 
 	private void InstantiateEditBehaviors(AObject aObj) {
 		Behaviors behaviors = aObj.GetComponent<Behaviors> ();
+		this._tabBehaviorName = new InputField[behaviors.dic.Count];
 
-		float yPos = 0f;
+		float	yPos = 0f;
+		int 	i = 0;
 		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
-			GameObject behaviorInfos = Instantiate (behaviorInfosPrefab);
-			Debug.Log (behaviorInfos.name);
+			GameObject behaviorInfos = Instantiate (this.behaviorInfosPrefab);
 			behaviorInfos.transform.SetParent (this._behaviorsPanel.transform, false);
 			behaviorInfos.transform.localPosition = new Vector3(0f, yPos, 0f);
-
-			Debug.Log("behaviorInfos.GetComponent<Text>(): " + behaviorInfos.GetComponent<Text>());
 			behaviorInfos.GetComponentInChildren<Text>().text = elem.Key;
 			behaviorInfos.GetComponentInChildren<InputField>().text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
-			yPos -= 60f;
-			behaviorInfos = Instantiate (behaviorInfosPrefab);
-			Debug.Log (behaviorInfos.name);
-			behaviorInfos.transform.SetParent (this._behaviorsPanel.transform, false);
-			behaviorInfos.transform.localPosition = new Vector3(0f, yPos, 0f);
-			
-			Debug.Log("behaviorInfos.GetComponent<Text>(): " + behaviorInfos.GetComponent<Text>());
-			behaviorInfos.GetComponentInChildren<Text>().text = elem.Key;
-			behaviorInfos.GetComponentInChildren<InputField>().text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			this._tabBehaviorName[i] = behaviorInfos.GetComponentInChildren<InputField>();
+			++i;
 			yPos -= 60f;
 		}
 	}
@@ -236,14 +228,28 @@ public class EditorObject : MonoBehaviour {
 	}
 
 	public void Revert () {
+		Behaviors behaviors = this._aObj.GetComponent<Behaviors> ();
+		int i = 0;
+		
 		this._editorNameInputField.text = this._aObj.infos.fields ["displayName"] as String;
 		this._editorDescriptionInputField.text = this._aObj.infos.fields["description"] as String;
+		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
+			this._tabBehaviorName[i].text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			++i;
+		}
 		this._editorMessageText.text = "Annulation des changements";
 	}
 
 	public void Validate () {
+		Behaviors behaviors = this._aObj.GetComponent<Behaviors> ();
+		int i = 0;
+		
 		this._aObj.infos.UpdateField ("displayName", this._editorNameInputField.text);
 		this._aObj.infos.UpdateField ("description", this._editorDescriptionInputField.text);
+		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
+			elem.Value.GetComponent<Informations> ().UpdateField("description", this._tabBehaviorName[i].text);
+			++i;
+		}
 		this._editorMessageText.text = "Changement réussi";
 	}
 
@@ -278,6 +284,9 @@ public class EditorObject : MonoBehaviour {
 		this._editorColorMaterialDropdown.options.Clear ();
 
 		this.SendMessageUpwards ("OpenEditor");
+		foreach (Transform go in this._behaviorsPanel.transform)
+			Destroy (go.gameObject);
+		Debug.Log("CLose");
 	}
 
 	private void InitColorPicker () {

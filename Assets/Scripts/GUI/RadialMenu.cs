@@ -22,7 +22,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public delegate void fct();
 
-	private void InstantiateButton(int i, int lenght, string name, fct fctOnclick) {
+	private void InstantiateButton(int i, int lenght, string name, UnityEngine.Events.UnityAction fctOnclick) {
 		RadialButton newButton = Instantiate (buttonPrefab) as RadialButton;
 		newButton.transform.SetParent (transform, false);
 		float theta = (2 * Mathf.PI / lenght) * i;
@@ -31,7 +31,7 @@ public class RadialMenu : MonoBehaviour {
 
 		newButton.transform.localPosition = new Vector3 (xPos, yPos, 0f) * 100f;
 		Button bt = newButton.GetComponent<Button> ();
-		bt.onClick.AddListener (() => {fctOnclick();});
+		bt.onClick.AddListener (fctOnclick);
 		bt.GetComponentInChildren<Text> ().text = name;
 	}
 
@@ -41,8 +41,7 @@ public class RadialMenu : MonoBehaviour {
 
 		InstantiateButton (0, behaviors.dic.Count + 1, "Edit", delegate {GUIManager.instance.GetComponent<MainGUI>().EditObject(obj.gameObject);obj.GetComponent<OpenRadialMenu>().Desactivate();});
 		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
-			InstantiateButton (i, behaviors.dic.Count + 1, elem.Key, delegate{elem.Value.Play();obj.GetComponent<OpenRadialMenu>().Desactivate();});
-			++i;
+			InstantiateButton (i++, behaviors.dic.Count + 1, elem.Key, delegate {elem.Value.Play();obj.GetComponent<OpenRadialMenu>().Desactivate();});
 		}
 	}
 }
