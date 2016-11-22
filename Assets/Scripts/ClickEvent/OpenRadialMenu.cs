@@ -44,7 +44,7 @@ public class OpenRadialMenu : AClickable {
 	public void SpawnMenu() {
 		this._newMenu = Instantiate (radialMenuPrefab) as RadialMenu;
 		this._newMenu.transform.SetParent (GUIManager.instance.gameObject.transform, false); //TO DO add transform of maincanvas
-		this._newMenu.transform.position = Input.mousePosition; // TO DO center position of object
+		this._newMenu.transform.localPosition = new Vector3(0f, 0f, 0f); // TO DO center position of object
 		this._newMenu.SpawnButtons(_object);
 
 	}
