@@ -101,22 +101,31 @@ public class EditorObject : MonoBehaviour {
 	private void InstantiateEditBehaviors(AObject aObj) {
 		Behaviors behaviors = aObj.GetComponent<Behaviors> ();
 		this._tabBehaviorName = new InputField[behaviors.dic.Count];
-
-		float	yPos = 0f;
 		int 	i = 0;
+		float	width = this.gameObject.GetComponent<RectTransform>().sizeDelta.x;
+
 		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
 			GameObject behaviorInfos = Instantiate (this.behaviorInfosPrefab);
+			Text behaviorName = behaviorInfos.GetComponentInChildren<Text>();
+			InputField behaviorDescription = behaviorInfos.GetComponentInChildren<InputField>();
+
 			behaviorInfos.transform.SetParent (this._behaviorsPanel.transform, false);
-			behaviorInfos.transform.localPosition = new Vector3(0f, yPos, 0f);
-			behaviorInfos.GetComponentInChildren<Text>().text = elem.Key;
-			behaviorInfos.GetComponentInChildren<InputField>().text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
-			this._tabBehaviorName[i] = behaviorInfos.GetComponentInChildren<InputField>();
+			behaviorInfos.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 100f);
+
+			behaviorName.transform.localPosition = new Vector3(-10f, 50f, 0f);
+			behaviorName.GetComponent<RectTransform>().sizeDelta = new Vector2(width - 50f, 20f);
+			behaviorName.text = elem.Key;
+			
+			behaviorDescription.transform.localPosition = new Vector3(-10f, 5f, 0f);
+			behaviorDescription.GetComponent<RectTransform>().sizeDelta = new Vector2(width - 50f, 70f);
+			behaviorDescription.text = elem.Value.GetComponent<Informations> ().GetField("description") as string;
+			this._tabBehaviorName[i] = behaviorDescription;
 			++i;
-			yPos -= 60f;
 		}
 	}
 
 	public void Init (AObject aObj) {
+		this._DeleteBehaviorsInfos ();
 		this._aObj = aObj;
 		this.CloseDelete ();
 		this._isOpenColorPicker = false;
@@ -275,6 +284,11 @@ public class EditorObject : MonoBehaviour {
 		this._editorObjectPanel.blocksRaycasts = true;
 	}
 
+	private void _DeleteBehaviorsInfos() {
+		foreach (Transform go in this._behaviorsPanel.transform)
+			Destroy (go.gameObject);
+	}
+
 	public void Close () {
 		this._editorColorPickerPanel.alpha = 0;
 		this._editorColorPickerPanel.blocksRaycasts = false;
@@ -282,11 +296,8 @@ public class EditorObject : MonoBehaviour {
 		this._editorObjectPanel.blocksRaycasts = false;
 		this._editorColorRendererDropdown.options.Clear ();
 		this._editorColorMaterialDropdown.options.Clear ();
-
+		this._DeleteBehaviorsInfos ();
 		this.SendMessageUpwards ("OpenEditor");
-		foreach (Transform go in this._behaviorsPanel.transform)
-			Destroy (go.gameObject);
-		Debug.Log("CLose");
 	}
 
 	private void InitColorPicker () {
