@@ -14,9 +14,9 @@ public class RadialMenu : MonoBehaviour {
 	private int _maxNumberButton;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		this._maxNumberButton = 8;
-		this._visiblebButtons = new Button[_maxNumberButton];
+		this._visiblebButtons = new Button[this._maxNumberButton];
 	}
 
 	// Update is called once per frame
@@ -45,13 +45,13 @@ public class RadialMenu : MonoBehaviour {
 	public void _MoveLeft(){
 		int i = 0;
 
-		while (i < this._visiblebButtons.Length - 1) {
+		while (i < this._maxNumberButton - 1) {
 			this._visiblebButtons [i + 1].transform.localPosition = this._visiblebButtons [i].transform.localPosition;
 		}
 		KeyValuePair<string, ABehavior> prev = _FindNewBehavior(0, true);
-		this._visiblebButtons [i].GetComponent<Text> ().text = prev.Key;
-		this._visiblebButtons [i].onClick.RemoveAllListeners ();
-		this._visiblebButtons [i].onClick.AddListener (delegate {
+		this._visiblebButtons [0].GetComponent<Text> ().text = prev.Key;
+		this._visiblebButtons [0].onClick.RemoveAllListeners ();
+		this._visiblebButtons [0].onClick.AddListener (delegate {
 			prev.Value.Play ();
 			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
 		});
@@ -60,7 +60,7 @@ public class RadialMenu : MonoBehaviour {
 	public void _MoveRight(){
 		int i = 0;
 
-		while (i < this._visiblebButtons.Length - 1) {
+		while (i < this._maxNumberButton - 1) {
 			this._visiblebButtons [i].transform.localPosition = this._visiblebButtons [i + 1].transform.localPosition;
 		}
 		KeyValuePair<string, ABehavior> next = _FindNewBehavior(i, false);
@@ -72,22 +72,22 @@ public class RadialMenu : MonoBehaviour {
 	}
 
 	private void InstantiateButton(int i, int lenght, string name, UnityEngine.Events.UnityAction fctOnclick) {
-		if (lenght > this._maxNumberButton)
-			lenght = this._maxNumberButton;
 		RadialButton newButton = Instantiate (buttonPrefab) as RadialButton;
 		newButton.transform.SetParent (transform, false);
-		float theta = (2 * Mathf.PI / lenght) * i;
+
+		if (lenght > this._maxNumberButton)
+			lenght = this._maxNumberButton;
+		float theta = (2 * Mathf.PI / (lenght + 1)) * i;
 		float xPos = Mathf.Sin (theta);
 		float yPos = Mathf.Cos (theta);
-
 		newButton.transform.localPosition = new Vector3 (xPos, yPos, 0f) * 100f;
-		Button bt = newButton.GetComponent<Button> ();
-		bt.onClick.AddListener (delegate {
+
+		this._visiblebButtons [i] = Instantiate (newButton.GetComponent<Button> ());
+		this._visiblebButtons [i].onClick.AddListener (delegate {
 			fctOnclick();
 			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
 		});
-		bt.GetComponentInChildren<Text> ().text = name;
-		this._visiblebButtons [i] = bt;
+		this._visiblebButtons [i].GetComponentInChildren<Text> ( ).text = name;
 	}
 
 	public void SpawnButtons(AObject obj) {
@@ -96,12 +96,12 @@ public class RadialMenu : MonoBehaviour {
 		this._dic  = behaviors.dic;
 		int i = 1;
 
-		InstantiateButton (0, behaviors.dic.Count + 1, "Edit", delegate {
+		InstantiateButton (0, this._dic.Count, "Edit", delegate {
 			GUIManager.instance.GetComponent<MainGUI>().EditObject(obj.gameObject);
 		});
 		foreach (KeyValuePair<string, ABehavior> elem in this._dic) {
 			if (i < this._maxNumberButton) {
-				InstantiateButton (i++, behaviors.dic.Count + 1, elem.Key, elem.Value.Play);
+				InstantiateButton (i++, this._dic.Count, elem.Key, elem.Value.Play);
 			}
 		}
 	}
