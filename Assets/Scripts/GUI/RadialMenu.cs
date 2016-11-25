@@ -6,10 +6,19 @@ using System.Linq;
 
 public class RadialMenu : MonoBehaviour {
 
+	public delegate void fct();
+
+	private	struct buttonInfos {
+		public fct		fct;
+		public string	name;
+	}
+
 	public RadialButton buttonPrefab;
+	public RadialButton	leftArrowButtonPrefab;
+	public RadialButton	rightArrowButtonPrefab;
 
 	private Button[] _visiblebButtons;
-	private Dictionary<string, ABehavior> _dic;
+	private buttonInfos[] _tabButtonsInfos;
 	private AObject _aObj;
 	private int _maxNumberButton;
 
@@ -23,57 +32,82 @@ public class RadialMenu : MonoBehaviour {
 	void Update () {
 	
 	}
+		
+	private buttonInfos  _FindNewBehavior(string name, bool prev){
+		int i = -1;
 
-	public delegate void fct();
-
-	private KeyValuePair<string, ABehavior>  _FindNewBehavior(int current, bool prev){
 		if (prev) {
-			if (current == 0) {
-				return (this._dic.ElementAt (this._dic.Count - 1));
-			} else
-				return (this._dic.ElementAt (current - 1));
-		}
-		else {
-			if (current == this._dic.Count - 1) {
-				return (this._dic.ElementAt (0));
-			} else {
-				return (this._dic.ElementAt(current + 1));
+			while (++i < this._tabButtonsInfos.Length) {
+				if (name == this._tabButtonsInfos[i].name) {
+					if (i == 0)
+						return this._tabButtonsInfos [this._tabButtonsInfos.Length - 1]; 
+					return this._tabButtonsInfos[i - 1];
+				}
 			}
 		}
+		else {
+			while (++i < this._tabButtonsInfos.Length) {
+				if (name == this._tabButtonsInfos[i].name) {
+					if (i == this._tabButtonsInfos.Length - 1)
+						return this._tabButtonsInfos [0];
+					return this._tabButtonsInfos[i + 1];
+				}
+			}
+		}
+		return (default(buttonInfos));
 	}
 
 	public void _MoveLeft(){
-		int i = 0;
+		buttonInfos prev;
+		Vector3 tmpPos = this._visiblebButtons[0].transform.localPosition;
+		Button tmpBt = this._visiblebButtons [this._visiblebButtons.Length - 1];
+		int i = -1;
 
-		while (i < this._maxNumberButton - 1) {
-			this._visiblebButtons [i + 1].transform.localPosition = this._visiblebButtons [i].transform.localPosition;
+		while (++i < this._visiblebButtons.Length - 1) {
+			this._visiblebButtons [i].transform.localPosition = this._visiblebButtons [i + 1].transform.localPosition;
 		}
-		KeyValuePair<string, ABehavior> prev = _FindNewBehavior(0, true);
-		this._visiblebButtons [0].GetComponent<Text> ().text = prev.Key;
+		this._visiblebButtons[i].transform.localPosition = tmpPos;
+
+		i = this._maxNumberButton;
+		while (--i > 0) {
+			this._visiblebButtons [i] = this._visiblebButtons [i - 1];
+		}
+		this._visiblebButtons [0] = tmpBt;
+		
+		string name = this._visiblebButtons [0].GetComponentInChildren<Text> ().text;
+		prev = _FindNewBehavior(name, false);
+		this._visiblebButtons [0].GetComponentInChildren<Text> ().text = prev.name;
 		this._visiblebButtons [0].onClick.RemoveAllListeners ();
-		this._visiblebButtons [0].onClick.AddListener (delegate {
-			prev.Value.Play ();
-			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
-		});
+		this._visiblebButtons [0].onClick.AddListener (() => {prev.fct();});
 	}
 
 	public void _MoveRight(){
-		int i = 0;
+		buttonInfos next;
+		Vector3 tmpPos = this._visiblebButtons[this._visiblebButtons.Length - 1].transform.localPosition;
+		Button tmpBt = this._visiblebButtons [0];
+		int i = this._visiblebButtons.Length;
 
-		while (i < this._maxNumberButton - 1) {
-			this._visiblebButtons [i].transform.localPosition = this._visiblebButtons [i + 1].transform.localPosition;
+		while (--i > 0) {
+			this._visiblebButtons [i].transform.localPosition = this._visiblebButtons [i - 1].transform.localPosition;
 		}
-		KeyValuePair<string, ABehavior> next = _FindNewBehavior(i, false);
-		this._visiblebButtons [i].GetComponent<Text> ().text = next.Key;
-		this._visiblebButtons [i].onClick.AddListener(delegate {
-			next.Value.Play ();
-			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
-		});
+		this._visiblebButtons [0].transform.localPosition = tmpPos;
+		
+		i = -1;
+		while (++i < this._visiblebButtons.Length - 1) {
+			this._visiblebButtons [i] = this._visiblebButtons [i + 1];
+		}
+		this._visiblebButtons [this._visiblebButtons.Length - 1] = tmpBt;
+		
+		string name = this._visiblebButtons [i].GetComponentInChildren<Text> ().text;
+		next = _FindNewBehavior(name, true);
+		this._visiblebButtons [i].GetComponentInChildren<Text> ().text = next.name;
+		this._visiblebButtons [i].onClick.RemoveAllListeners ();
+		this._visiblebButtons [i].onClick.AddListener (() => {next.fct();});
 	}
 
-	private void InstantiateButton(int i, int lenght, string name, UnityEngine.Events.UnityAction fctOnclick) {
-		RadialButton newButton = Instantiate (buttonPrefab) as RadialButton;
-		newButton.transform.SetParent (transform, false);
+	private void InstantiateButton(int i, int lenght, buttonInfos buttonInfos) {
+		RadialButton newButton = Instantiate (this.buttonPrefab) as RadialButton;
+		newButton.transform.SetParent (this.transform, false);
 
 		if (lenght > this._maxNumberButton)
 			lenght = this._maxNumberButton;
@@ -82,27 +116,48 @@ public class RadialMenu : MonoBehaviour {
 		float yPos = Mathf.Cos (theta);
 		newButton.transform.localPosition = new Vector3 (xPos, yPos, 0f) * 100f;
 
-		this._visiblebButtons [i] = Instantiate (newButton.GetComponent<Button> ());
-		this._visiblebButtons [i].onClick.AddListener (delegate {
-			fctOnclick();
-			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
-		});
-		this._visiblebButtons [i].GetComponentInChildren<Text> ( ).text = name;
+		this._visiblebButtons [i] = newButton.GetComponent<Button> ();
+		this._visiblebButtons [i].GetComponentInChildren<Text> ().text = buttonInfos.name;
+		this._visiblebButtons [i].onClick.AddListener (() => {buttonInfos.fct();});
 	}
 
 	public void SpawnButtons(AObject obj) {
 		this._aObj = obj; 
 		Behaviors behaviors = obj.GetComponent<Behaviors> ();
-		this._dic  = behaviors.dic;
+		this._tabButtonsInfos  = new buttonInfos[behaviors.dic.Count + 1];
+		buttonInfos buttonInfos;
 		int i = 1;
 
-		InstantiateButton (0, this._dic.Count, "Edit", delegate {
+		buttonInfos.name = "Edit";
+		buttonInfos.fct = delegate {
 			GUIManager.instance.GetComponent<MainGUI>().EditObject(obj.gameObject);
-		});
-		foreach (KeyValuePair<string, ABehavior> elem in this._dic) {
+			this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
+		};
+		this._tabButtonsInfos[0] = buttonInfos;
+		InstantiateButton (0, behaviors.dic.Count, buttonInfos); 
+		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
+			buttonInfos.name = elem.Key;
+			buttonInfos.fct = delegate {
+				elem.Value.Play();
+				this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
+			};
 			if (i < this._maxNumberButton) {
-				InstantiateButton (i++, this._dic.Count, elem.Key, elem.Value.Play);
+				InstantiateButton (i, behaviors.dic.Count, buttonInfos);
 			}
+			this._tabButtonsInfos[i++] = buttonInfos;
+		}
+		if (i >= this._maxNumberButton) {
+			RadialButton leftArrowButton = Instantiate (this.leftArrowButtonPrefab) as RadialButton;
+			leftArrowButton.transform.SetParent (this.transform, false);
+			Button bt = leftArrowButton.GetComponent<Button>();
+			bt.onClick.AddListener (this._MoveLeft);
+			bt.GetComponentInChildren<Text>().text = "";
+
+			RadialButton rightArrowButton = Instantiate (this.rightArrowButtonPrefab) as RadialButton;
+			rightArrowButton.transform.SetParent (this.transform, false);
+			bt = rightArrowButton.GetComponent<Button>();
+			bt.onClick.AddListener (this._MoveRight);
+			bt.GetComponentInChildren<Text>().text = "";
 		}
 	}
 }
