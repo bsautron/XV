@@ -122,7 +122,7 @@ public class RadialMenu : MonoBehaviour {
 	}
 
 	public void SpawnButtons(AObject obj) {
-		this._aObj = obj; 
+		this._aObj = obj;
 		Behaviors behaviors = obj.GetComponent<Behaviors> ();
 		this._tabButtonsInfos  = new buttonInfos[behaviors.dic.Count + 1];
 		buttonInfos buttonInfos;
@@ -136,9 +136,10 @@ public class RadialMenu : MonoBehaviour {
 		this._tabButtonsInfos[0] = buttonInfos;
 		InstantiateButton (0, behaviors.dic.Count, buttonInfos); 
 		foreach (KeyValuePair<string, ABehavior> elem in behaviors.dic) {
-			buttonInfos.name = elem.Key;
+			KeyValuePair<string, ABehavior> tmp = elem;
+			buttonInfos.name = tmp.Key;
 			buttonInfos.fct = delegate {
-				elem.Value.Play();
+				tmp.Value.Play();
 				this._aObj.GetComponent<OpenRadialMenu> ().Desactivate ();
 			};
 			if (i < this._maxNumberButton) {
