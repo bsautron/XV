@@ -21,7 +21,6 @@ public class Walking : ABehavior, IContext<Vector3> {
 
 	public Vector3 GetContext() {
 		Vector3 context = this._contexts.Peek ();
-		Debug.Log ("Context : " + context);
 		this._contexts.Dequeue ();
 		return context;
 	}
@@ -33,19 +32,13 @@ public class Walking : ABehavior, IContext<Vector3> {
 		charaterAgent.ResetPath ();
 		charaterAgent.SetDestination(targetPosition);
 
-		Debug.Log ("CoBehavior: " + targetPosition);
-//		this._onDeplacement = true;
-
 		yield return new WaitForEndOfFrame();
 
-//		charaterAgent.Resume ();
-		Debug.Log(charaterAgent.remainingDistance + " > " + charaterAgent.stoppingDistance);
-
-		while (charaterAgent.remainingDistance > charaterAgent.stoppingDistance) {
+		while (charaterAgent.remainingDistance == 0)
+			yield return false;
+		while (charaterAgent.remainingDistance > charaterAgent.stoppingDistance)
 			yield return true;
-		}
-//		this._onDeplacement = false;
-//		charaterAgent.Stop ();
+
 		this.Stop ();
 
 		yield return new WaitForSeconds(2f);
