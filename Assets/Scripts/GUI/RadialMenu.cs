@@ -24,7 +24,7 @@ public class RadialMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		this._maxNumberButton = 8;
+		this._maxNumberButton = 2;
 		this._visiblebButtons = new Button[this._maxNumberButton];
 	}
 
@@ -109,8 +109,8 @@ public class RadialMenu : MonoBehaviour {
 		RadialButton newButton = Instantiate (this.buttonPrefab) as RadialButton;
 		newButton.transform.SetParent (this.transform, false);
 
-		if (lenght > this._maxNumberButton)
-			lenght = this._maxNumberButton;
+		if (lenght + 1 > this._maxNumberButton)
+			lenght = this._maxNumberButton - 1;
 		float theta = (2 * Mathf.PI / (lenght + 1)) * i;
 		float xPos = Mathf.Sin (theta);
 		float yPos = Mathf.Cos (theta);
