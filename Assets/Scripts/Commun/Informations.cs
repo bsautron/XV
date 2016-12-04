@@ -53,6 +53,9 @@ public class Informations : MonoBehaviour {
 		this._fields.Add("updatedOn", this._updatedOn);
 		this._fields.Add("position", this.transform.position);
 		this._fields.Add("rotation", this.transform.rotation);
+		foreach (KeyValuePair<string, object> caca in this._fields) {
+			Debug.Log(caca.Key);
+		}
 	}
 
 	public void UpdateField(string fieldName, object value) {
@@ -76,10 +79,10 @@ public class Informations : MonoBehaviour {
 			this._fields["updatedOn"] = this._updatedOn;
 			Debug.Log("Field '" + fieldName + "' has been changed");
 		}
-
 	}
 
 	public object GetField(string fieldName) {
+
 		return this._fields [fieldName];
 	}
 

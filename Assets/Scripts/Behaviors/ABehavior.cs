@@ -42,6 +42,7 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 		if (this.IsEnableToStop()) {
 			this._state = StatesManager.EBehavior.STANDBY;
 			StopCoroutine (this._currentCoBehavior);
+			Destroy(this.gameObject);
 		}
 	}
 
