@@ -15,5 +15,6 @@ public interface IBehavior {
 	bool IsEnableToPlay();
 	bool IsEnableToStop();
 	bool IsAvailable();
+	void SetContext (object context);
 	IEnumerator CoBehavior();
 }

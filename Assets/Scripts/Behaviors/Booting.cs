@@ -7,8 +7,10 @@ public class Booting : ABehavior {
 	public float detaTimeLog = 0.2f;
 	
 	public override IEnumerator CoBehavior() {
-		for (float i = 0f; i < this.timeBooting ; i += this.detaTimeLog) {
-			Debug.Log ("Loading: " + ((i * 100) / this.timeBooting)  + "%");
+		float ttt = (float)this._context;
+
+		for (float i = 0f; i < ttt ; i += this.detaTimeLog) {
+			Debug.Log ("Loading: " + ((i * 100) / ttt)  + "%");
 			yield return new WaitForSeconds(this.detaTimeLog);
 		}
 

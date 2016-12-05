@@ -21,17 +21,19 @@ public class Behaviors : MonoBehaviour {
 	}
 
 	private void _MapToDictionary(ABehavior behavior) {
-
-		Debug.Log (behavior.GetComponent<Informations> ().GetField ("displayName") as string);
-//		string behaviorName = behavior.GetComponent<Informations> ().GetField ("displayName") as string;
-//		this._dicBehavior.Add (behaviorName, behavior);
+		string behaviorName = behavior.GetComponent<Informations> ().name;
+		this._dicBehavior.Add (behaviorName, behavior);
 	}
 
 	private void _AssignParent(ABehavior behavior) {
 		behavior.transform.parent = this.transform;
 	}
 
-	public void InvokeBehavior(string behaviorName) {
-		this._AssignParent (Instantiate (this.dic [behaviorName], this.transform.position, Quaternion.identity) as ABehavior);
+	// faire un truck qui puisse monttrer le nombre d'instance dans la scene et qui puisse limiter le nombre dans le nombre pour le meme object
+	public void InvokeBehavior(string behaviorName, object context) {
+		ABehavior behavior = Instantiate (this.dic [behaviorName], this.transform.position, Quaternion.identity) as ABehavior;
+		behavior.context = context;
+		this._AssignParent (behavior);
+		behavior.Play ();
 	}
 }

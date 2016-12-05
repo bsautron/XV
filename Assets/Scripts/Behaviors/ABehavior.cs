@@ -8,10 +8,12 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 	protected IEnumerator 				_currentCoBehavior;
 	protected GameObject				_parent;
 	protected GameObject				_target;
+	protected object 					_context;
 
 	public StatesManager.EBehavior state { get { return this._state; } }
 	public GameObject parent { get { return this._parent; } }
 	public GameObject target { get { return this._target; } set { this._target = value; } }
+	public object context { get { return this._context; } set { this._context = value; } }
 
 	public void Awake() {
 		this._state = StatesManager.EBehavior.STANDBY;
