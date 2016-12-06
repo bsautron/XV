@@ -12,7 +12,7 @@ public class CharacterManager : Singleton<CharacterManager> {
 	private GameObject _ObjectBehavior;
 
 	public void Start() {
-		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().InvokeBehavior("Taking", 0));
+		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().InvokeBehavior("Taking"));
 		character = FindObjectOfType<Character> ();
 
 	}
@@ -39,11 +39,11 @@ public class CharacterManager : Singleton<CharacterManager> {
 		instruction.Add (walking1);
 		instruction.Add (finalCommand);
 		instruction.Add (walking2);
-		instruction.Add (this.photocopier.GetComponent<Behaviors> ().InvokeBehavior("Droping", 0));
+		instruction.Add (this.photocopier.GetComponent<Behaviors> ().InvokeBehavior("Droping"));
 		instruction.Add (walking3);
 
 		character.stackInstructions.Enqueue (instruction);
-	}	
+	}
 
 	public void checkCurrentCommand () {
 		Instruction currentInstruction;

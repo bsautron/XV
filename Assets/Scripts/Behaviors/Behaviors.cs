@@ -25,10 +25,16 @@ public class Behaviors : MonoBehaviour {
 	}
 
 	// faire un truck qui puisse montrer le nombre d'instance dans la scene et qui puisse limiter le nombre dans le nombre pour le meme objecthiy 
-	public ABehavior InvokeBehavior(string behaviorName, object context) {
+
+	public ABehavior InvokeBehavior(string behaviorName) {
 		ABehavior behavior = Instantiate (this.dic [behaviorName], this.transform.position, Quaternion.identity) as ABehavior;
-		behavior.context = context;
 		this._AssignParent (behavior);
+		return behavior;
+	}
+
+	public ABehavior InvokeBehavior(string behaviorName, object context) {
+		ABehavior behavior = this.InvokeBehavior (behaviorName);
+		behavior.context = context;
 		return behavior;
 	}
 }
