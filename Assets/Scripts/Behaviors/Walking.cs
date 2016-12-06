@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Walking : ABehavior, IContext<Vector3> {
-
-	private Queue<Vector3>	_contexts = new Queue<Vector3>();
+public class Walking : ABehavior {
 
 	private Character 		_character;
-
 	private Vector3			_targetPosition;
 
 	public override void Start() {
@@ -15,19 +12,9 @@ public class Walking : ABehavior, IContext<Vector3> {
 		this._character = this._parent.GetComponent<Character> ();
 	}
 
-	public void AddContext(Vector3 value) {
-		this._contexts.Enqueue (value);
-	}
-
-	public Vector3 GetContext() {
-		Vector3 context = this._contexts.Peek ();
-		this._contexts.Dequeue ();
-		return context;
-	}
-	
 	public override IEnumerator CoBehavior() {
 		NavMeshAgent charaterAgent = this._character.agent;
-		Vector3 targetPosition = this.GetContext ();
+		Vector3 targetPosition = (Vector3)this._context;
 
 		charaterAgent.ResetPath ();
 		charaterAgent.SetDestination(targetPosition);

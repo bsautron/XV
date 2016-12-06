@@ -12,7 +12,7 @@ public class CharacterManager : Singleton<CharacterManager> {
 	private GameObject _ObjectBehavior;
 
 	public void Start() {
-		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().dic["Taking"]);
+		CharacterManager.instance.AddCommand (this.photocopier.GetComponent<Behaviors>().InvokeBehavior("Taking", 0));
 		character = FindObjectOfType<Character> ();
 
 	}
@@ -30,17 +30,17 @@ public class CharacterManager : Singleton<CharacterManager> {
 	private void InterpretCommand(ABehavior finalCommand) {
 		Instruction instruction = new Instruction ();
 
-		Walking walking = character.GetComponent<Behaviors> ().dic ["Walking"] as Walking;
-		walking.AddContext (finalCommand.parent.transform.position);
-		walking.AddContext (target2.transform.position);
-		walking.AddContext (this.character.transform.position);
+		Walking walking1 = character.GetComponent<Behaviors> ().InvokeBehavior("Walking", finalCommand.transform.parent.transform.position) as Walking;
+		Walking walking2 = character.GetComponent<Behaviors> ().InvokeBehavior("Walking", target2.transform.position) as Walking;
+		Walking walking3 = character.GetComponent<Behaviors> ().InvokeBehavior("Walking", this.character.transform.position) as Walking;
 		
 		finalCommand.target = character.gameObject;
-		instruction.Add (walking);
+
+		instruction.Add (walking1);
 		instruction.Add (finalCommand);
-		instruction.Add (walking);
-		instruction.Add (this.photocopier.GetComponent<Behaviors> ().dic ["Droping"]);
-		instruction.Add (walking);
+		instruction.Add (walking2);
+		instruction.Add (this.photocopier.GetComponent<Behaviors> ().InvokeBehavior("Droping", 0));
+		instruction.Add (walking3);
 
 		character.stackInstructions.Enqueue (instruction);
 	}	

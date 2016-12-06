@@ -9,13 +9,8 @@ public class Behaviors : MonoBehaviour {
 	private Dictionary<string, ABehavior>	_dicBehavior = new Dictionary<string, ABehavior>();
 	public Dictionary<string, ABehavior> dic { get { return this._dicBehavior; } }
 
-	public void Start() {
-		this._Init (this._tabBehavior);
-	}
-
-	private void _Init(ABehavior[] listBehavior) {
-		foreach (ABehavior behavior in listBehavior) {
-//			ABehavior b = Instantiate (behavior, this.transform.position, Quaternion.identity) as ABehavior;
+	public void Awake() {
+		foreach (ABehavior behavior in this._tabBehavior) {
 			this._MapToDictionary (behavior);
 		}
 	}
@@ -29,11 +24,11 @@ public class Behaviors : MonoBehaviour {
 		behavior.transform.parent = this.transform;
 	}
 
-	// faire un truck qui puisse monttrer le nombre d'instance dans la scene et qui puisse limiter le nombre dans le nombre pour le meme object
-	public void InvokeBehavior(string behaviorName, object context) {
+	// faire un truck qui puisse montrer le nombre d'instance dans la scene et qui puisse limiter le nombre dans le nombre pour le meme objecthiy 
+	public ABehavior InvokeBehavior(string behaviorName, object context) {
 		ABehavior behavior = Instantiate (this.dic [behaviorName], this.transform.position, Quaternion.identity) as ABehavior;
 		behavior.context = context;
 		this._AssignParent (behavior);
-		behavior.Play ();
+		return behavior;
 	}
 }

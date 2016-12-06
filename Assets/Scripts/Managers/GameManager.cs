@@ -15,7 +15,8 @@ public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 //
 	public void Update() {
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			go.GetComponent<Behaviors>().InvokeBehavior("Booting", test);
+			ABehavior behavior = go.GetComponent<Behaviors>().InvokeBehavior("Booting", test);
+			behavior.Play ();
 		}
 	}
 }
