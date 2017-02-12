@@ -4,19 +4,55 @@ using System.Collections;
 public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 
 	[SerializeField] protected StatesManager.EGame	_state;
-//
-	public GameObject go;
-	public float test = 1f;
 
 	public StatesManager.EGame state { 
 		get { return this._state; }
 		set { this._state = value; }
 	}
-//
+
+	public void Start() {
+		this.Resume ();
+	}
+
 	public void Update() {
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			ABehavior behavior = go.GetComponent<Behaviors>().InvokeBehavior("Booting", test);
-			behavior.Play ();
+		this._HandleKeyInput ();
+	}
+
+
+	/* INPUT KEY HANDLERS */
+	private void _HandleKeyInput() {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Debug.Log ("PRESS ESC");
+			this._KeyEscape ();
 		}
+	}
+
+	private void _KeyEscape() {
+		switch (this._state) {
+		case StatesManager.EGame.PLAY:
+			this.Pause ();
+			break;
+		case StatesManager.EGame.PAUSE:
+			this.Resume ();
+			break;
+		case StatesManager.EGame.REPLAY:
+			this._state = StatesManager.EGame.PAUSE;
+			break;
+		default:
+			break;
+		}
+	}
+
+	/* STATES CHANGEMENTS */
+	public void Pause() {
+		Debug.Log ("GAME: Paused");
+		this._state = StatesManager.EGame.PAUSE;
+		Time.timeScale = 0;
+	}
+
+	public void Resume() {
+		Debug.Log ("GAME: Resumed");
+		this._state = StatesManager.EGame.PLAY;
+		Time.timeScale = 1;
 	}
 }
