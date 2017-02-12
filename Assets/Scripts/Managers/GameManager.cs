@@ -48,11 +48,15 @@ public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 		Debug.Log ("GAME: Paused");
 		this._state = StatesManager.EGame.PAUSE;
 		Time.timeScale = 0;
+		GUIManager.instance.DisablePanel (GUIManager.instance.pauseButton);
+		GUIManager.instance.EnablePanel (GUIManager.instance.playButton);
 	}
 
 	public void Resume() {
 		Debug.Log ("GAME: Resumed");
 		this._state = StatesManager.EGame.PLAY;
 		Time.timeScale = 1;
+		GUIManager.instance.DisablePanel (GUIManager.instance.playButton);
+		GUIManager.instance.EnablePanel (GUIManager.instance.pauseButton);
 	}
 }
