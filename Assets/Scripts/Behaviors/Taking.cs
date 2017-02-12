@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+// TODO: Put change this behavior for the caracter
 public class Taking : ABehavior {
 
 	public override IEnumerator CoBehavior() {

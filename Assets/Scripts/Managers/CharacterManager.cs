@@ -34,12 +34,12 @@ public class CharacterManager : Singleton<CharacterManager> {
 		Walking walking2 = character.GetComponent<Behaviors> ().InvokeBehavior("Walking", target2.transform.position) as Walking;
 		Walking walking3 = character.GetComponent<Behaviors> ().InvokeBehavior("Walking", this.character.transform.position) as Walking;
 		
-		finalCommand.target = character.gameObject;
+//		finalCommand.target = character.gameObject;
 
 		instruction.Add (walking1);
-		instruction.Add (finalCommand);
+//		instruction.Add (finalCommand);
 		instruction.Add (walking2);
-		instruction.Add (this.photocopier.GetComponent<Behaviors> ().InvokeBehavior("Droping"));
+//		instruction.Add (this.photocopier.GetComponent<Behaviors> ().InvokeBehavior("Droping"));
 		instruction.Add (walking3);
 
 		character.stackInstructions.Enqueue (instruction);

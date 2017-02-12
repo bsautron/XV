@@ -20,15 +20,16 @@ public class Behaviors : MonoBehaviour {
 		this._dicBehavior.Add (behaviorName, behavior);
 	}
 
-	private void _AssignParent(ABehavior behavior) {
-		behavior.transform.parent = this.transform;
+	private void _AssignParent (ABehavior behavior, Transform parent) {
+		behavior.transform.parent = parent;
 	}
 
 	// faire un truck qui puisse montrer le nombre d'instance dans la scene et qui puisse limiter le nombre dans le nombre pour le meme objecthiy 
 
 	public ABehavior InvokeBehavior(string behaviorName) {
 		ABehavior behavior = Instantiate (this.dic [behaviorName], this.transform.position, Quaternion.identity) as ABehavior;
-		this._AssignParent (behavior);
+		behavior.referrer = this.gameObject;
+		this._AssignParent (behavior, this.transform);
 		return behavior;
 	}
 

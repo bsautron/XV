@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class Walking : ABehavior {
 
 	private Character 		_character;
-	private Vector3			_targetPosition;
 	private Animator		_animator;
 
 	public override void Start() {
 		base.Start ();
 
-		this._character = this._parent.GetComponent<Character> ();
+		this._character = this._referrer.GetComponent<Character> ();
+		Debug.Log ("this._character:" + this._referrer);
 		this._animator = this._character.GetComponent<Animator>();
 	}
 
