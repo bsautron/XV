@@ -11,7 +11,6 @@ public class Walking : ABehavior {
 		base.Start ();
 
 		this._character = this._referrer.GetComponent<Character> ();
-		Debug.Log ("this._character:" + this._referrer);
 		this._animator = this._character.GetComponent<Animator>();
 	}
 
@@ -19,6 +18,7 @@ public class Walking : ABehavior {
 		this._animator.SetBool ("isWalking", true);
 		NavMeshAgent charaterAgent = this._character.agent;
 		Vector3 targetPosition = (Vector3)this._context;
+		this._referrer.transform.LookAt (targetPosition);
 
 		charaterAgent.ResetPath ();
 		charaterAgent.SetDestination(targetPosition);

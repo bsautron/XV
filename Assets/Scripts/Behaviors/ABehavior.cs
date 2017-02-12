@@ -21,7 +21,6 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 
 	public virtual void Start() {
 		this._name = this.GetComponent<Informations> ().GetField ("displayName") as string;
-		Debug.Log ("My referrer is: " + this._referrer);
 	}
 
 	public bool IsEnableToPlay() {
@@ -35,7 +34,6 @@ public abstract class ABehavior : MonoBehaviour, IState<StatesManager.EBehavior>
 	public ABehavior _Clone() {
 		if (!this.isReplay) {
 			ABehavior replayBehavior = this._referrer.GetComponent<Behaviors> ().InvokeBehavior (this._name, this._context);
-			replayBehavior.transform.parent = ReplayManager.instance.transform;
 			replayBehavior.isReplay = true;
 			return replayBehavior;
 		}
