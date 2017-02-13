@@ -50,6 +50,7 @@ public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 		Time.timeScale = 0;
 		GUIManager.instance.DisablePanel (GUIManager.instance.pauseButton);
 		GUIManager.instance.EnablePanel (GUIManager.instance.playButton);
+		GUIManager.instance.EnablePanel (GUIManager.instance.pausePanel);
 	}
 
 	public void Resume() {
@@ -58,5 +59,6 @@ public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 		Time.timeScale = 1;
 		GUIManager.instance.DisablePanel (GUIManager.instance.playButton);
 		GUIManager.instance.EnablePanel (GUIManager.instance.pauseButton);
+		GUIManager.instance.DisablePanel (GUIManager.instance.pausePanel);
 	}
 }
