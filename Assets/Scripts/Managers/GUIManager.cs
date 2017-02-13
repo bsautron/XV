@@ -2,22 +2,36 @@
 using UnityEngine.UI;
 using System.Collections;
 
+public struct InGameGUI {
+	public GameObject mainPanel;
+	public Button playButton;
+	public Button pauseButton;
+}
+
+public struct PauseGUI {
+	public GameObject mainPanel;
+}
+
 public class GUIManager : Singleton<GUIManager>  {
 
 	public GameObject userGUI;
 
-	[HideInInspector] public GameObject playButton;
-	[HideInInspector] public GameObject pauseButton;
-	[HideInInspector] public GameObject pausePanel;
+	public InGameGUI inGameGUI = new InGameGUI();
+	public PauseGUI pauseGUI = new PauseGUI ();
 
 	public void Start() {
-		this.playButton = this.userGUI.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-		this.playButton.GetComponent<Button> ().onClick.AddListener (() => GameManager.instance.Resume ());
-		this.pauseButton = this.userGUI.transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
-		this.pauseButton.GetComponent<Button> ().onClick.AddListener (() => GameManager.instance.Pause ());
-		this.pausePanel = this.userGUI.transform.GetChild (1).gameObject;
-	}
+		this.inGameGUI.playButton = this.userGUI.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Button>();
+		this.inGameGUI.pauseButton = this.userGUI.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Button>();
+		this.pauseGUI.mainPanel = this.userGUI.transform.GetChild (1).gameObject;
 
+		this._AddButtonAction (this.inGameGUI.playButton, GameManager.instance.Resume);
+		this._AddButtonAction (this.inGameGUI.pauseButton , GameManager.instance.Pause);
+	}
+	
+	private void _AddButtonAction(Button button, UnityEngine.Events.UnityAction action) {
+		button.onClick.AddListener (action);
+
+	}
 	public void DisablePanel(GameObject go) {
 		go.SetActive (false);
 	}
