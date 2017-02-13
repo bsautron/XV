@@ -61,4 +61,24 @@ public class GameManager : Singleton<GameManager>, IState<StatesManager.EGame> {
 		GUIManager.instance.EnablePanel (GUIManager.instance.inGameGUI.pauseButton.gameObject);
 		GUIManager.instance.DisablePanel (GUIManager.instance.pauseGUI.mainPanel);
 	}
+
+	public void GoSettingsMode() {
+		Debug.Log ("GoSettingsMode");
+	}
+
+	public void GoEditonMode() {
+		Debug.Log ("GoEditonMode");
+	}
+
+	public void Save() {
+		Debug.Log ("Save");
+	}
+
+	public void GoLoadMode() {
+		Debug.Log ("GoLoadMode");
+	}
+
+	public void GoReplayMode() {
+		Debug.Log ("GoReplayMode");
+	}
 }
