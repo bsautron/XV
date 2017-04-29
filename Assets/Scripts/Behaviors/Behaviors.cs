@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Behaviors : MonoBehaviour {
 
-	[SerializeField] private ABehavior[]	_tabBehavior;
+	[SerializeField] public ABehavior[]	_tabBehavior;
 
 	private Dictionary<string, ABehavior>	_dicBehavior = new Dictionary<string, ABehavior>();
 	public Dictionary<string, ABehavior> dic { get { return this._dicBehavior; } }

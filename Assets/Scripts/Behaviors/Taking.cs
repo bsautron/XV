@@ -4,7 +4,7 @@ using System.Collections;
 public class Taking : ABehavior {
 
 	public override IEnumerator CoBehavior() {
-		this.transform.parent.transform.parent = GameObject.FindObjectOfType <Character>().transform;
+		this.transform.parent.transform.parent = GameObject.FindObjectOfType <ACharacter>().transform;
 		this.Stop ();
 		yield return true;
 	}

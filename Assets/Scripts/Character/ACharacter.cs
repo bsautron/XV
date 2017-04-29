@@ -1,13 +1,8 @@
-﻿/// <summary>
-/// Class Character implement simple character behaviors
-/// </summary>
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class Character : MonoBehaviour, ICharacter {
-
+public class ACharacter : MonoBehaviour, ICharacter {
+	
 	private StackInstruction _instructions = new StackInstruction();
 	public bool 			_isAttached { get; private set; }
 
@@ -31,5 +26,4 @@ public class Character : MonoBehaviour, ICharacter {
 	public void SetPositionTarget (Vector3 targetPosition) {
 		this._poitionTarget = targetPosition;
 	}
-
- }
+}

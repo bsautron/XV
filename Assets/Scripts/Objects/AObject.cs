@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent (typeof (Informations))]
 [RequireComponent (typeof (Behaviors))]
+[RequireComponent (typeof (Rigidbody))]
 public abstract class AObject : MonoBehaviour, IState<StatesManager.EObject> {
 
 	[SerializeField] private StatesManager.EObject	_state;

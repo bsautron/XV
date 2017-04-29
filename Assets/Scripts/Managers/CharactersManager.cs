@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CharactersManager : Singleton<CharactersManager> {
 	
-	public Character character;
+	public ACharacter character;
 	private GameObject _ObjectBehavior;
 
 
